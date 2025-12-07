@@ -1,0 +1,81 @@
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #ffe992;
+                font-family: "Arial", sans-serif;
+            }
+            
+            #topbar {
+                background-color: #f5c952;
+                position: fixed;
+                font-family: "Arial", sans-serif;
+                left: 0;
+                top: 0;
+                padding: 10px 0;
+                text-align: center;
+                width: 100%;
+
+            }
+            #navbar {
+                list-style-type: none;
+                color: rgb(21, 89, 216);
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .logo {
+                height: 5rem;
+                width: auto;
+            }
+            #title {
+                margin: 0;
+                font-size: 5rem;
+                background: linear-gradient(to right, #0fc017, #0fa50f);
+                background-clip: text;
+                color: transparent;
+            }
+
+            .brand {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                vertical-align: middle;
+            }
+
+            .links {
+                text-decoration: none;
+                font-size: 2rem;
+                transition: color 1s ease;
+                
+            }
+            .links:hover {
+                text-decoration: underline;
+                color:rgb(146, 147, 212);
+            }
+            
+            #webpage {
+                font-size: 2rem;
+                color: rgb(0, 17, 46);
+                text-decoration: underline;
+                font-weight: bold;
+            }
+
+            #intro {
+                font-size: 3.5rem;
+                text-align: center;
+                color: rgb(0, 17, 46);
+                margin-left: 20rem;
+                margin-right: 20rem;
+            }
+
+            #intro_paragraphs {
+                font-size: 2rem;
+                text-align: center;
+                color: rgb(0, 17, 46);
+                margin-left: 20rem;
+                margin-right: 20rem;
+            }
