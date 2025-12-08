@@ -49,7 +49,7 @@
             .links {
                 text-decoration: none;
                 font-size: 2rem;
-                transition: color 1s ease;
+                transition: color 0.4s ease-in;
                 
             }
             .links:hover {
@@ -78,4 +78,67 @@
                 color: rgb(0, 17, 46);
                 margin-left: 20rem;
                 margin-right: 20rem;
+            }
+
+            .brand_footer {
+                display: flex;
+                align-items: center;
+                justify-content: left;
+                margin-left: 2rem;
+            }
+
+            .logo_footer {
+                height: 4em;
+                width: auto;
+            }
+
+            .bTitle {
+                margin: 0;
+                font-size: 3rem;
+                background: linear-gradient(to right, #0fc017, #0fa50f);
+                background-clip: text;
+                color: transparent;
+            }
+
+            #copyright {
+                font-size: 1.5rem;
+                color: rgb(0, 17, 46);
+                vertical-align: bottom;
+                margin-left: 2rem;
+            }
+
+            footer {
+                background-color: #f8bc16;
+                padding-bottom: 1rem;
+                padding-top: 1rem;
+                text-align: left;
+                width: 100%;
+            }
+
+            .home_imgs {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            #home_img, #home_img2 {
+                height: 30rem;
+                width: auto;
+            }
+            #home_img3 {
+                display: block;
+                margin: 0 auto;
+                height: 62rem;
+                width: auto;
+                margin-bottom: 10rem;
+            }
+
+            .about_us {
+                margin-left: 20rem;
+                margin-right: 20rem;
+                margin-bottom: 5rem;
+                font-size: 2rem;
+                color: rgb(0, 17, 46);
             }
