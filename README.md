@@ -4,7 +4,7 @@
 ## Second title: “ Feed your mind, one book at a time”
 
 ## Logo:
-![Logo](Assets/Snake_Logo.png)
+![Logo](assets/Snake_Logo.png)
 
 #### Website Description: Snakademic is an education web game inspired by the classic snake game. Instead of eating apples, the snake collects books that represent knowledge. Each book collected adds to your learning score. The game aims to make learning fun and interactive while improving focus and reflexes.
   
