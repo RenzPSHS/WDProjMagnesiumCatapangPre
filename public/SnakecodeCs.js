@@ -69,6 +69,7 @@ function play() {
     document.addEventListener("keyup", changeDirection)
     //update();
     this.setInterval(update, 1000/10); //100 ms
+    this.setInterval(correctanswer, 1000*15); //100 ms
     return;
 }
 
