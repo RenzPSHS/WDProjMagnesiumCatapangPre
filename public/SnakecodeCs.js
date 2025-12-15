@@ -117,3 +117,5 @@ function placeFood() {
     foodX = Math.floor(Math.random() * cols) * blockSize;
     foodY = Math.floor(Math.random() * rows) * blockSize;
 }
+
+//The Bug could be fixed, but we don't have enough time
