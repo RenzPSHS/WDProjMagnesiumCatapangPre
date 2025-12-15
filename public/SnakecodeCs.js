@@ -22,17 +22,32 @@ var foodY;
 
 var gameOver = false;
 
+
+
 window.onload = function() {
+play();
+restartbutton = document.getElementById("restartbutton");
+restartbutton.addEventListener("click", play)
+}
+
+function play() {
     board = document.getElementById("board");
     board.height = rows * blockSize;
     board.width = cols * blockSize;
     context = board.getContext("2d");
 
+    velocityX = 0;
+    velocityY = 0;
+    snakeBody = [];
+    snakeX = blockSize * 5;
+    snakeY = blockSize * 5;
+    gameOver = false;
+
     placeFood();
     document.addEventListener("keyup", changeDirection)
     //update();
     this.setInterval(update, 1000/10); //100 ms
-    
+    return;
 }
 
 function update() {
