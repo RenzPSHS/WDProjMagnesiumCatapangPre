@@ -39,8 +39,8 @@ function play() {
     velocityX = 0;
     velocityY = 0;
     snakeBody = [];
-    snakeX = blockSize * 5;
-    snakeY = blockSize * 5;
+    snakeX = (blockSize * 5);
+    snakeY = (blockSize * 5);
     gameOver = false;
 
     placeFood();
@@ -94,19 +94,20 @@ function update() {
 }
 
 function changeDirection(e) {
-    if ((e.code == "ArrowUp" && velocityY != 1) || (e.code == "KeyW" && velocityY != 1) ) {
+    if ((e.code == "ArrowUp" && velocityY == 0) || (e.code == "KeyW" && velocityY == 0) ) {
         velocityX = 0;
         velocityY = -1; 
+        
     }
-    else if ((e.code == "ArrowDown" && velocityY != -1) || (e.code == "KeyS" && velocityY != -1)) {
+    else if ((e.code == "ArrowDown" && velocityY == 0) || (e.code == "KeyS" && velocityY == 0)) {
         velocityX = 0;
         velocityY = 1; 
     }
-    else if ((e.code == "ArrowLeft" && velocityX != 1) || (e.code == "KeyA" && velocityX != 1)) {
+    else if ((e.code == "ArrowLeft" && velocityX == 0) || (e.code == "KeyA" && velocityX == 0)) {
         velocityX = -1;
         velocityY = 0; 
     }
-    else if ((e.code == "ArrowRight" && velocityX != -1) || (e.code == "KeyD" && velocityX != -1)) {
+    else if ((e.code == "ArrowRight" && velocityX == 0) || (e.code == "KeyD" && velocityX == 0)) {
         velocityX = 1;
         velocityY = 0;
     }
