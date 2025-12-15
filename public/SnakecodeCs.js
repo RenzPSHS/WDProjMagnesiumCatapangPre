@@ -20,14 +20,36 @@ var snakeBody = [];
 var foodX;
 var foodY;
 
+var which;
+
 var gameOver = false;
 
+//default math arithmetic
+num1 = Math.floor(Math.random() * 10000);
+num2 = Math.floor(Math.random() * 10000);
+sign = Math.floor(Math.random() * 4) + 1;
+    if (sign == 1) {
+    correct = num1 + num2;  
+    }
+    else if (sign == 2) {
+    correct = num1 - num2;
+    }
+    else if (sign == 3) {
+    correct = num1 * num2;
+    }
+    else if (sign == 4) {
+    correct = num1 / num2;
+    }
 
 
 window.onload = function() {
 play();
 restartbutton = document.getElementById("restartbutton");
 restartbutton.addEventListener("click", play)
+button1 = document.getElementById("button1");
+button2 = document.getElementById("button2");
+button3 = document.getElementById("button3");
+button4 = document.getElementById("button4");
 }
 
 function play() {
@@ -119,3 +141,40 @@ function placeFood() {
 }
 
 //The Bug could be fixed, but we don't have enough time
+
+function correctanswer() {
+    which = Math.floor(Math.random() * 4) + 1;
+    if (which == 1) {
+        button1.textcontext = correct;
+        button2.textcontext = correct + Math.floor(Math.random() * 30);
+        button3.textcontext = correct - Math.floor(Math.random() * 30);
+        button4.textcontext = correct / Math.floor(Math.random() * 30);
+
+        correct1 = true;
+    }
+    else if (which == 2) {
+        button1.textcontext = correct + Math.floor(Math.random() * 30);
+        button2.textcontext = correct;
+        button3.textcontext = correct - Math.floor(Math.random() * 30);
+        button4.textcontext = correct / Math.floor(Math.random() * 30);
+        
+        correct2 = true;
+    }
+    else if (which == 3) {
+        button1.textcontext = correct + Math.floor(Math.random() * 30);
+        button2.textcontext = correct - Math.floor(Math.random() * 30);
+        button3.textcontext = correct;
+        button4.textcontext = correct / Math.floor(Math.random() * 30);
+
+        correct3 = true;
+    }
+    else if (which == 4) {
+        button1.textcontext = correct + Math.floor(Math.random() * 30);
+        button2.textcontext = correct / Math.floor(Math.random() * 30);
+        button3.textcontext = correct - Math.floor(Math.random() * 30);
+        button4.textcontext = correct;
+
+        correct4 = true;
+    }
+}
+
