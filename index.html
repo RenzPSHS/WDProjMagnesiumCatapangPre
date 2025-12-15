@@ -6,7 +6,38 @@
         <title>Snakademic</title>
         <link rel="icon" href="assets/Snake_Logo.png" type="image/png">
         <link rel="stylesheet" href="public/styles.css" />
-        <style></style>
+        <style>
+            .intro_text {
+                margin-left: 20rem;
+                margin-right: 20rem;
+                color:rgb(0, 17, 46);
+            }
+            
+            #intro_phrase {
+                font-size: 3.5rem;
+                text-align: center;
+            }
+            #intro_paragraph1, #intro_paragraph2 {
+                font-size: 2rem;
+                text-align: left;
+                text-indent: 4rem;
+            }
+
+            #home_img, #home_img2 {
+                height: 30rem;
+                width: auto;
+            }
+            
+            #home_img3 {
+                display: block;
+                margin: 0 auto;
+                height: 62rem;
+                width: auto;
+                margin-bottom: 10rem;
+            }
+
+
+        </style>
     </head>
     <body class="home_body">
         <header id="topbar">
@@ -25,14 +56,17 @@
             </nav>
         </header>
         <section>
-            <div>
+            <div class="intro_text">
                 <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            <h1 id="intro">"Feed your Mind, One Book at a Time"</h1>
-            <p id="intro_paragraphs">Snakademic is a fresh spin on the classic snake game, designed to blend fast-paced arcade fun with an academic twist. 
-                Players guide their snake across a vibrant grid, collecting glowing “knowledge orbs” that represent different subjects like math, science, and history. 
-                Each orb not only makes the snake grow longer but also unlocks themed challenges, keeping the gameplay exciting and mentally engaging. 
-                The familiar mechanics of avoiding walls and your own tail remain intact, but the added educational layer makes every move feel purposeful.
-
+            <h1 id="intro_phrase">"Feed your Mind, One Book at a Time"</h1>
+            <p id="intro_paragraph1"> Snakademic is a fresh spin on the classic snake game, designed to blend fast-paced arcade fun with an academic twist. 
+                Players guide their snake across a grid collecting books that makes the snake longer, but before that, they need to answer a question correctly to earn each book'
+                and make the snake grow. The game challenges players' reflexes and knowledge, making it an engaging way to learn while playing.
+            </p>
+            <p id="intro_paragraph2">
+                There is point system that keeps track of the player's score based on the number of books collected and questions answered correctly.
+                Some books make the snake shorter, allowing players to continuesly gain points for the leaderboard. Different speeds can be picked to increase or decrease
+                the difficuly to the users preference. Snakademic offers a unique blend of education and entertainment, making learning fun and interactive.
             </p>
             </div>
             <div class="home_imgs">
@@ -46,6 +80,10 @@
                 <img class="logo_footer" src="assets/Snake_Logo.png" alt="logo">
                 <h1 class="bTitle">Snakademic</h1>
                 <p id="copyright">© 2025</p>
+            </div>
+            <div class="sources">
+                <h2>Sources:</h2>
+                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube. https://www.youtube.com/watch?v=baBq5GAL0_U</p>
             </div>
             <p></p>
         </footer>

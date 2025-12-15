@@ -5,17 +5,57 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Snakademic</title>
         <link rel="icon" href="../assets/Snake_Logo.png" type="image/png">
-        <link rel="stylesheet" href="snakestyles.css" />
-        <style></style>
+        <link rel="stylesheet" href="styles.css" />
+        <style>
+        body {
+            text-align: center;
+            }  
+        
+        #restartbutton {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        </style>
     </head>
 
     <body>
-        <h1>Snakademic</h1>
+        <header id="topbar">
+            <div class="brand">
+                <img class="logo" src="../assets/Snake_Logo.png" alt="logo">
+                <h1 class="top" id="title">Snakademic</h1>
+            </div>
+            <nav>
+                <ul id="navbar">
+                    <li><a class="links" href="../index.html">Home</a></li>
+                    <li><a class="links" href="guide.html">How To Play</a></li>
+                    <li><p id="webpage">The Game</p></li>
+                    <li><a class="links" href="leaderboard.html">Leaderboard</a></li>
+                    <li><a class="links" href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <div></div>
+        </section>
         <canvas id="board"></canvas>
+        <br><br>
         <button id="restartbutton"></button>
-        <button id="buttonone">one</button>
-        <button id="buttontwo">two</button>
-        <button id="buttonthree">three</button>
-        <button id="buttonfour">four</button>
+        <button id="button1">one</button>
+        <button id="button2">two</button>
+        <button id="button3">three</button>
+        <button id="button4">four</button>
          <script src="SnakecodeCs.js"></script>
+        <footer>
+            <div class="brand_footer">
+                <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
+                <h1 class="bTitle">Snakademic</h1>
+                <p id="copyright">© 2025</p>
+            </div>
+            <div class="sources">
+                <h2>Sources:</h2>
+                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube. https://www.youtube.com/watch?v=baBq5GAL0_U</p>
+            </footer>
     </body>
