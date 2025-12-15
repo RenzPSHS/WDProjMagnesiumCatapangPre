@@ -108,7 +108,7 @@ function changeDirection(e) {
     }
     else if ((e.code == "ArrowRight" && velocityX != -1) || (e.code == "KeyD" && velocityX != -1)) {
         velocityX = 1;
-        velocityY = 0 ;
+        velocityY = 0;
     }
 }
 
