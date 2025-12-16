@@ -1,4 +1,4 @@
-//NOTE FOR RENZ THE LAST THING FOR THIS FILE IS TO DISPLAY THE QUESTIONS.
+//NOTE FOR RENZ THE LAST THING FOR THIS FILE IS TO DISPLAY THE QUESTIONS, and DISPLAY THE OPTIONS ON THE QUESTIONS.
 
 
 //board
@@ -67,7 +67,7 @@ function play() {
     this.setInterval(update, 1000/10); //100 ms
     this.setInterval(ArithmeticQuestions, 1000*30); //30 s
     this.setInterval(correctanswer, 1000*30); //30s
-    this.setInterval(resetconditions, 1000*45); //30s
+    this.setInterval(resetconditions, 1000*45); //45s
     return;
 }
 
