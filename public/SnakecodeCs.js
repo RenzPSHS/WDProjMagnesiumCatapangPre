@@ -33,12 +33,45 @@ var highscore2 = 0;
 var highscore3 = 0;
 var highscore4 = 0;
 var highscore5 = 0;
+var highscore6 = 0;
+var highscore7 = 0;
+var highscore8 = 0;
+var highscore9 = 0;
+var highscore10 = 0;
+var highscore11 = 0;
+var highscore12 = 0;
+var highscore13 = 0;
+var highscore14 = 0;
+var highscore15 = 0;
+var highscore16 = 0;
+var highscore17 = 0;
+var highscore18 = 0;
+var highscore19 = 0;
+var highscore20 = 0;
 
+var playername;
 var username1;
 var username2;
 var username3;
 var username4;
 var username5;
+var username6;
+var username7;
+var username8;
+var username9;
+var username10;
+var username11;
+var username12;
+var username13;
+var username14;
+var username15;
+var username16;
+var username17;
+var username18;
+var username19;
+var username20;
+
+
 
 const lboard =[
     {name:username1, score: highscore1},
@@ -101,6 +134,27 @@ function update() {
     context.fillRect(foodX, foodY, blockSize, blockSize);
     
     if (snakeX == foodX && snakeY == foodY) {
+        ArithmeticQuestions();   // this runs the function
+        if (sign == 1) {
+        correct = num1 + num2;
+        document.getElementById("questionbox").style.display = "flex";
+        document.getElementById("question").textContent = "What is " + num1 + " + " + num2 + "?";  
+        }
+        else if (sign == 2) {
+        correct = num1 - num2;
+        document.getElementById("questionbox").style.display = "flex";
+        document.getElementById("question").textContent = "What is " + num1 + " - " + num2 + "?";
+        }
+        else if (sign == 3) {
+        correct = num1 * num2;
+        document.getElementById("questionbox").style.display = "flex";
+        document.getElementById("question").textContent = "What is " + num1 + " * " + num2 + "?";
+        }
+        else if (sign == 4) {
+        correct = num1 / num2;
+        document.getElementById("questionbox").style.display = "flex";
+        document.getElementById("question").textContent = "What is " + num1 + " / " + num2 + "?";
+        }
         if (correctans == true) {
         if (snakeX == foodX && snakeY == foodY) {
         snakeBody.push([foodX,foodY])
@@ -142,53 +196,70 @@ function update() {
             alert ("Game Over");
         }
     }
-    if (gameover == true) {
-        if (score > highscore1) {
-            highscore2 = highscore1;
-            highscore3 = highscore2;
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore1 = score;
+    if (gameOver == true) {
+             playername = prompt("Please enter your username");
+                if (score > highscore1 || score == highscore1) {
+                    highscore20 = highscore19;
+                    username20 = username19;
 
-            username2 = username1;
-            username3 = username2;
-            username4 = username3;
-            username5 = username4;
-             username1 = prompt("Please enter your username");
-        }
-         if (score > highscore2) {
-            highscore3 = highscore2;
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore2 = score;
+                    highscore19 = highscore18;
+                    username19 = username18;
 
-            username3 = username2;
-            username4 = username3;
-            username5 = username4;
-             username2 = prompt("Please enter your username");
-        }
-         if (score > highscore3) {
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore3 = score;
+                    highscore18 = highscore17;
+                    username18 = username17;
 
-            username4 = username3;
-            username5 = username4;
-             username3 = prompt("Please enter your username");
-        }
-         if (score > highscore4) {
-            highscore5 = highscore4;
-            highscore4 = score;
+                    highscore17 = highscore16;
+                    username17 = username16;
 
-            username5 = username4;
-             username4 = prompt("Please enter your username");
-        }
-         if (score > highscore5) {
-            highscore5 = score;
+                    highscore16 = highscore15;
+                    username16 = username15;
 
-             username5 = prompt("Please enter your username");
-        }
+                    highscore15 = highscore14;
+                    username15 = username14;
+
+                    highscore14 = highscore13;
+                    username14 = username13;
+
+                    highscore13 = highscore12;
+                    username13 = username12;
+
+                    highscore12 = highscore11;
+                    username12 = username11;
+
+                    highscore11 = highscore10;
+                    username11 = username10;
+
+                    highscore10 = highscore9;
+                    username10 = username9;
+
+                    highscore9 = highscore8;
+                    username9 = username8;
+
+                    highscore8 = highscore7;
+                    username8 = username7;
+
+                    highscore7 = highscore6;
+                    username7 = username6;
+
+                    highscore6 = highscore5;
+                    username6 = username5;
+
+                    highscore5 = highscore4;
+                    username5 = username4;
+
+                    highscore4 = highscore3;
+                    username4 = username3;
+
+                    highscore3 = highscore2;
+                    username3 = username2;
+
+                    highscore2 = highscore1;
+                    username2 = username1;
+
+                    highscore1 = score;
+                    username1 = playername;
     }
+}
 }
 
 function changeDirection(e) {
@@ -235,6 +306,7 @@ sign = Math.floor(Math.random() * 4) + 1;
     else if (sign == 4) {
     correct = num1 / num2;
     }
+    return num1, num2, sign, correct;
 }
 
 function correctanswer() {
@@ -329,3 +401,87 @@ function correctanswer() {
         this.setInterval(update, 1000/10); //100 ms
         correctans = false;
     }
+
+                    if (score > highscore1 || score == highscore1) {
+                    highscore20 = highscore19;
+                    username20 = username19;
+
+                    highscore19 = highscore18;
+                    username19 = username18;
+
+                    highscore18 = highscore17;
+                    username18 = username17;
+
+                    highscore17 = highscore16;
+                    username17 = username16;
+
+                    highscore16 = highscore15;
+                    username16 = username15;
+
+                    highscore15 = highscore14;
+                    username15 = username14;
+
+                    highscore14 = highscore13;
+                    username14 = username13;
+
+                    highscore13 = highscore12;
+                    username13 = username12;
+
+                    highscore12 = highscore11;
+                    username12 = username11;
+
+                    highscore11 = highscore10;
+                    username11 = username10;
+
+                    highscore10 = highscore9;
+                    username10 = username9;
+
+                    highscore9 = highscore8;
+                    username9 = username8;
+
+                    highscore8 = highscore7;
+                    username8 = username7;
+
+                    highscore7 = highscore6;
+                    username7 = username6;
+
+                    highscore6 = highscore5;
+                    username6 = username5;
+
+                    highscore5 = highscore4;
+                    username5 = username4;
+
+                    highscore4 = highscore3;
+                    username4 = username3;
+
+                    highscore3 = highscore2;
+                    username3 = username2;
+
+                    highscore2 = highscore1;
+                    username2 = username1;
+
+                    highscore1 = score;
+                    username1 = playername;
+    }
+
+    document.getElementById("scoreboard").textContent =
+    "1 " + playername + " " +  score + "\n" +
+    "2 " + username2 + " " +  highscore2 + "\n" +
+    "3 " + username3 + " " +  highscore3 + "\n" +
+    "4 " + username4 + " " +  highscore4 + "\n" +
+    "5 " + username5 + " " +  highscore5 + "\n" +
+    "6 " + username6 + " " +  highscore6 + "\n" +
+    "7 " + username7 + " " +  highscore7 + "\n" +
+    "8 " + username8 + " " +  highscore8 + "\n" +
+    "9 " + username9 + " " +  highscore9 + "\n" +
+    "10 " + username10 + " " +  highscore10 + "\n" +
+    "11 " + username11 + " " +  highscore11 + "\n" +
+    "12 " + username12 + " " +  highscore12 + "\n" +
+    "13 " + username13 + " " +  highscore13 + "\n" +
+    "14 " + username14 + " " +  highscore14 + "\n" +
+    "15 " + username15 + " " +  highscore15 + "\n" +
+    "16 " + username16 + " " +  highscore16 + "\n" +
+    "17 " + username17 + " " +  highscore17 + "\n" +
+    "18 " + username18 + " " +  highscore18 + "\n" +
+    "19 " + username19 + " " +  highscore19 + "\n" +
+    "20 " + username20 + " " +  highscore20 + "\n";
