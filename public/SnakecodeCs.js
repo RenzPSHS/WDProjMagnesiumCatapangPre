@@ -1,4 +1,4 @@
-//NOTE FOR RENZ THE LAST THING FOR THIS FILE IS TO DISPLAY THE QUESTIONS, and DISPLAY THE OPTIONS ON THE QUESTIONS.
+//NOTE FOR RENZ THE LAST THING FOR THIS FILE IS TO DISPLAY THE QUESTIONS, and DISPLAY THE OPTIONS ON THE QUESTIONS and DISPLAY SCORE.
 
 
 //board
@@ -27,24 +27,43 @@ var correctans;
 
 var gameOver = false;
 
+var score = 0;
+var highscore1 = 0;
+var highscore2 = 0;
+var highscore3 = 0;
+var highscore4 = 0;
+var highscore5 = 0;
 
+var username1;
+var username2;
+var username3;
+var username4;
+var username5;
+
+const lboard =[
+    {name:username1, score: highscore1},
+    {name:username2, score: highscore2},
+    {name:username3, score: highscore3},
+    {name:username4, score: highscore4},
+    {name:username5, score: highscore5}
+]
 
 
 window.onload = function() {
 play();
-restartbutton = document.getElementById("restartbutton");
+var restartbutton = document.getElementById("restartbutton");
 restartbutton.addEventListener("click", play)
 
-button1 = document.getElementById("button1");
+var button1 = document.getElementById("button1");
 button1.addEventListener("click", picker1)
 
-button2 = document.getElementById("button2");
+var button2 = document.getElementById("button2");
 button2.addEventListener("click", picker2)
 
-button3 = document.getElementById("button3");
+var button3 = document.getElementById("button3");
 button3.addEventListener("click", picker3)
 
-button4 = document.getElementById("button4");
+var button4 = document.getElementById("button4");
 button4.addEventListener("click", picker4)
 }
 
@@ -87,11 +106,13 @@ function update() {
         snakeBody.push([foodX,foodY])
         snakeBody.push([foodX + 1,foodY + 1])
         placeFood();
+        score = score + 2;
         }
     }
         else {
         snakeBody.push([foodX,foodY])
         placeFood();
+        score++;
         }
     }
 
@@ -119,6 +140,53 @@ function update() {
         if(snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
             gameOver = true;
             alert ("Game Over");
+        }
+    }
+    if (gameover == true) {
+        if (score > highscore1) {
+            highscore2 = highscore1;
+            highscore3 = highscore2;
+            highscore4 = highscore3;
+            highscore5 = highscore4;
+            highscore1 = score;
+
+            username2 = username1;
+            username3 = username2;
+            username4 = username3;
+            username5 = username4;
+             username1 = prompt("Please enter your username");
+        }
+         if (score > highscore2) {
+            highscore3 = highscore2;
+            highscore4 = highscore3;
+            highscore5 = highscore4;
+            highscore2 = score;
+
+            username3 = username2;
+            username4 = username3;
+            username5 = username4;
+             username2 = prompt("Please enter your username");
+        }
+         if (score > highscore3) {
+            highscore4 = highscore3;
+            highscore5 = highscore4;
+            highscore3 = score;
+
+            username4 = username3;
+            username5 = username4;
+             username3 = prompt("Please enter your username");
+        }
+         if (score > highscore4) {
+            highscore5 = highscore4;
+            highscore4 = score;
+
+            username5 = username4;
+             username4 = prompt("Please enter your username");
+        }
+         if (score > highscore5) {
+            highscore5 = score;
+
+             username5 = prompt("Please enter your username");
         }
     }
 }
@@ -172,7 +240,7 @@ sign = Math.floor(Math.random() * 4) + 1;
 function correctanswer() {
     which = Math.floor(Math.random() * 4) + 1;
     if (which == 1) {
-        button1.textcontext = correct;
+        button1.textContext = correct;
         button2.textcontext = correct + Math.floor(Math.random() * 30);
         button3.textcontext = correct - Math.floor(Math.random() * 30);
         button4.textcontext = correct / Math.floor(Math.random() * 30);
@@ -183,7 +251,7 @@ function correctanswer() {
         correct4 = false;
     }
     else if (which == 2) {
-        button1.textcontext = correct + Math.floor(Math.random() * 30);
+        button1.textContext = correct + Math.floor(Math.random() * 30);
         button2.textcontext = correct;
         button3.textcontext = correct - Math.floor(Math.random() * 30);
         button4.textcontext = correct / Math.floor(Math.random() * 30);
