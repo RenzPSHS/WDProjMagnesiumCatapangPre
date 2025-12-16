@@ -28,48 +28,48 @@ var correctans;
 var gameOver = false;
 
 var score = 0;
-var highscore1 = 0;
-var highscore2 = 0;
-var highscore3 = 0;
-var highscore4 = 0;
-var highscore5 = 0;
-var highscore6 = 0;
-var highscore7 = 0;
-var highscore8 = 0;
-var highscore9 = 0;
-var highscore10 = 0;
-var highscore11 = 0;
-var highscore12 = 0;
-var highscore13 = 0;
-var highscore14 = 0;
-var highscore15 = 0;
-var highscore16 = 0;
-var highscore17 = 0;
-var highscore18 = 0;
-var highscore19 = 0;
-var highscore20 = 0;
+var highscore1 = 49;
+var highscore2 = 47;
+var highscore3 = 43;
+var highscore4 = 39;
+var highscore5 = 34;
+var highscore6 = 33;
+var highscore7 = 31;
+var highscore8 = 25;
+var highscore9 = 24;
+var highscore10 = 22;
+var highscore11 = 20;
+var highscore12 = 19;
+var highscore13 = 17;
+var highscore14 = 16;
+var highscore15 = 11;
+var highscore16 = 10;
+var highscore17 = 8;
+var highscore18 = 7;
+var highscore19 = 2;
+var highscore20 = 1;
 
 var playername;
-var username1;
-var username2;
-var username3;
-var username4;
-var username5;
-var username6;
-var username7;
-var username8;
-var username9;
-var username10;
-var username11;
-var username12;
-var username13;
-var username14;
-var username15;
-var username16;
-var username17;
-var username18;
-var username19;
-var username20;
+var username1 = "Renz";
+var username2 = "Enzo";
+var username3 = "Sam";
+var username4 = "Alex";
+var username5 = "John";
+var username6 = "Doe";
+var username7 = "Jane";
+var username8 = "Smith";
+var username9 = "Emily";
+var username10 = "Michael";
+var username11 = "Sarah";
+var username12 = "David";
+var username13 = "Olivia";
+var username14 = "Daniel";
+var username15 = "Sophia";
+var username16 = "James";
+var username17 = "Isabella";
+var username18 = "Ethan";
+var username19 = "Mia";
+var username20 = "Liam";
 
 
 
@@ -465,7 +465,7 @@ function correctanswer() {
     }
 
     document.getElementById("scoreboard").textContent =
-    "1 " + playername + " " +  score + "\n" +
+    "1 " + username1 + " " +  highscore1 + "\n" +
     "2 " + username2 + " " +  highscore2 + "\n" +
     "3 " + username3 + " " +  highscore3 + "\n" +
     "4 " + username4 + " " +  highscore4 + "\n" +
