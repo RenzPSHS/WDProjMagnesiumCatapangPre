@@ -1,3 +1,5 @@
+//NOTE FOR RENZ THE LAST THING FOR THIS FILE IS TO DISPLAY THE QUESTIONS.
+
 
 //board
 var blockSize = 25;
@@ -21,35 +23,29 @@ var foodX;
 var foodY;
 
 var which;
+var correctans;
 
 var gameOver = false;
 
-//default math arithmetic
-num1 = Math.floor(Math.random() * 10000);
-num2 = Math.floor(Math.random() * 10000);
-sign = Math.floor(Math.random() * 4) + 1;
-    if (sign == 1) {
-    correct = num1 + num2;  
-    }
-    else if (sign == 2) {
-    correct = num1 - num2;
-    }
-    else if (sign == 3) {
-    correct = num1 * num2;
-    }
-    else if (sign == 4) {
-    correct = num1 / num2;
-    }
+
 
 
 window.onload = function() {
 play();
 restartbutton = document.getElementById("restartbutton");
 restartbutton.addEventListener("click", play)
+
 button1 = document.getElementById("button1");
+button1.addEventListener("click", picker1)
+
 button2 = document.getElementById("button2");
+button2.addEventListener("click", picker2)
+
 button3 = document.getElementById("button3");
+button3.addEventListener("click", picker3)
+
 button4 = document.getElementById("button4");
+button4.addEventListener("click", picker4)
 }
 
 function play() {
@@ -69,7 +65,9 @@ function play() {
     document.addEventListener("keyup", changeDirection)
     //update();
     this.setInterval(update, 1000/10); //100 ms
-    this.setInterval(correctanswer, 1000*15); //100 ms
+    this.setInterval(ArithmeticQuestions, 1000*30); //30 s
+    this.setInterval(correctanswer, 1000*30); //30s
+    this.setInterval(resetconditions, 1000*45); //30s
     return;
 }
 
@@ -84,8 +82,17 @@ function update() {
     context.fillRect(foodX, foodY, blockSize, blockSize);
     
     if (snakeX == foodX && snakeY == foodY) {
+        if (correctans == true) {
+        if (snakeX == foodX && snakeY == foodY) {
+        snakeBody.push([foodX,foodY])
+        snakeBody.push([foodX + 1,foodY + 1])
+        placeFood();
+        }
+    }
+        else {
         snakeBody.push([foodX,foodY])
         placeFood();
+        }
     }
 
     for (let i = snakeBody.length-1; i > 0; i--) {
@@ -143,6 +150,25 @@ function placeFood() {
 
 //The Bug could be fixed, but we don't have enough time
 
+function ArithmeticQuestions() {
+    //default math arithmetic
+num1 = Math.floor(Math.random() * 10000);
+num2 = Math.floor(Math.random() * 10000);
+sign = Math.floor(Math.random() * 4) + 1;
+    if (sign == 1) {
+    correct = num1 + num2;  
+    }
+    else if (sign == 2) {
+    correct = num1 - num2;
+    }
+    else if (sign == 3) {
+    correct = num1 * num2;
+    }
+    else if (sign == 4) {
+    correct = num1 / num2;
+    }
+}
+
 function correctanswer() {
     which = Math.floor(Math.random() * 4) + 1;
     if (which == 1) {
@@ -152,6 +178,9 @@ function correctanswer() {
         button4.textcontext = correct / Math.floor(Math.random() * 30);
 
         correct1 = true;
+        correct2 = false;
+        correct3 = false;
+        correct4 = false;
     }
     else if (which == 2) {
         button1.textcontext = correct + Math.floor(Math.random() * 30);
@@ -160,6 +189,9 @@ function correctanswer() {
         button4.textcontext = correct / Math.floor(Math.random() * 30);
         
         correct2 = true;
+        correct1 = true;
+        correct3 = false;
+        correct4 = false;
     }
     else if (which == 3) {
         button1.textcontext = correct + Math.floor(Math.random() * 30);
@@ -168,6 +200,9 @@ function correctanswer() {
         button4.textcontext = correct / Math.floor(Math.random() * 30);
 
         correct3 = true;
+        correct1 = false;
+        correct2 = false;
+        correct4 = false;
     }
     else if (which == 4) {
         button1.textcontext = correct + Math.floor(Math.random() * 30);
@@ -176,6 +211,53 @@ function correctanswer() {
         button4.textcontext = correct;
 
         correct4 = true;
+        correct1 = false;
+        correct2 = false;
+        correct3 = false;
     }
-}
 
+}
+    function picker1() {
+    if (correct1 == true) {
+        correctans = true;
+    }
+    if (correct1 == false) {
+        //double speed
+         this.setInterval(update, 1000/20); //50 ms
+    }
+    }
+
+    function picker2() {
+    if (correct2 == true) {
+        correctans = true;
+    }
+    if (correct2 == false) {
+        //double speed
+         this.setInterval(update, 1000/20); //50 ms
+    }
+    }
+
+    function picker3() {
+    if (correct3 == true) {
+        correctans = true;
+    }
+    if (correct3 == false) {
+        //double speed
+         this.setInterval(update, 1000/20); //50 ms
+    }
+    }
+
+    function picker4() {
+    if (correct4 == true) {
+        correctans = true;
+    }
+    if (correct4 == false) {
+        //double speed
+         this.setInterval(update, 1000/20); //50 ms
+    }
+    }
+
+    function resetconditions() {
+        this.setInterval(update, 1000/10); //100 ms
+        correctans = false;
+    }
