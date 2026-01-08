@@ -17,6 +17,12 @@
 4. Leaderboard - Shows the scores of the top 20 players. Updates every time it is refreshed.
 5. About Us - Provides info and reason for making of the creators of the website.
 
+### NEW:
+6. Account - The webpage where the user creates their account. Creating an account allows the website to record their highest score in the game. If their highest score is in the leaderboard, it will be shown. The user can also log-in to an existing acccount by entering the username and password of a previously made account and be able access the acccount. Any new highest score after logging in will be recorded for that account. There is also a log-out button if the user decides to log off the account they are using.
+
+7. Setting - Here the user can change the game settings and mechanics to their own liking. Examples like the number of books spawning and the speed of the snake. If they wish to return to default settings there is a switch that when clicked, it will return to the original game settings without any modifiers. (Our pair is still thinking for the other settings, so for now we put modifier)
+
+
 ## Wireframes:
 
 ### Home Page (Top part)
@@ -25,11 +31,15 @@
 ### Home Page (Bottom part)
 ![HomeBot](Wire-frame/homeP_Bottom.jpg)
 
+### Account Page
+
 ### How To Play Page
 ![Guide](Wire-frame/guideP.jpg)
 
 ### The Game Page
 ![Game](Wire-frame/gameP.jpg)
+
+### Game Settings
 
 ### Leaderboard Page
 ![LeadBor](Wire-frame/leaderboardP.jpg)
