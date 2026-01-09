@@ -23,24 +23,19 @@
 ## Wireframes:
 
 ### Home Page (Top part)
-![HomeTop](Wire-frame/homeP_Top.jpg)
-
-### Home Page (Bottom part)
-![HomeBot](Wire-frame/homeP_Bottom.jpg)
+![HomeTop](/Wire-frame/homeNEW.png)
 
 ### How To Play Page
-![Guide](Wire-frame/guideP.jpg)
+![Guide](Wire-frame/GuideNEW.png)
 
 ### The Game Page
-![Game](Wire-frame/gameP.jpg)
-
-### Game Settings
+![Game](Wire-frame/GameNEW.png)
 
 ### Leaderboard Page
-![LeadBor](Wire-frame/leaderboardP.jpg)
+![Leaderboard](Wire-frame/LeaderboardNEW.png)
 
 ### About Us Page
-![AboutUs](Wire-frame/aboutUsP.jpg)
+![AboutUs](Wire-frame/aboutUsNEW.png)
 
 ### Project Proposal Update Plan
 
@@ -50,4 +45,12 @@
 
 3. The wireframe demonstrate how this saved data is used in the Settings page and Leaderboard[Modified] page. The settings page acts as the control center. The form here is used to input and save the selected difficulty levels. For example, if a student wants a faster paced game, they ccan set the Snake Speed to high and save it. The Leaderboard[Modified], on the otherhand, uses the saved data to personalize the view. For example, the Personal Stats box retrieves the saved username to display a personalized gretting alongside their personal high score in the account. Another example is for filtering results of the leaderboard, the sliders appear here again, but for a different purpose. Instead of setting the game rules, they act as filters. By adjusting the Snake Speed slider and clicking Change Leaderboard, the user can tell the list to only display the scores from other players who played that specific combination of game rules and mechanics with that specific difficulty. This ensures the ranking is fair.
 
-4.
+4. 
+### Sign-in Page
+![Sign-in](Wire-frame/Account.png)
+
+### Game Settings
+![Settings](Wire-frame/GameSettings.png)
+
+### Leaderboard[Modified]
+![Modified_Leaderboard](/Wire-frame/LeaderBoard[Modified].png)
