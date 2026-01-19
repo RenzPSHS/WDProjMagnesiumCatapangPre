@@ -40,13 +40,6 @@ var username3;
 var username4;
 var username5;
 
-const lboard =[
-    {name:username1, score: highscore1},
-    {name:username2, score: highscore2},
-    {name:username3, score: highscore3},
-    {name:username4, score: highscore4},
-    {name:username5, score: highscore5}
-]
 
 var correct;
 
@@ -143,53 +136,6 @@ function update() {
         if(snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
             gameOver = true;
             alert ("Game Over");
-        }
-    }
-    if (gameOver == true) {
-        if (score > highscore1) {
-            highscore2 = highscore1;
-            highscore3 = highscore2;
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore1 = score;
-
-            username2 = username1;
-            username3 = username2;
-            username4 = username3;
-            username5 = username4;
-             username1 = prompt("Please enter your username");
-        }
-         if (score > highscore2) {
-            highscore3 = highscore2;
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore2 = score;
-
-            username3 = username2;
-            username4 = username3;
-            username5 = username4;
-             username2 = prompt("Please enter your username");
-        }
-         if (score > highscore3) {
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore3 = score;
-
-            username4 = username3;
-            username5 = username4;
-             username3 = prompt("Please enter your username");
-        }
-         if (score > highscore4) {
-            highscore5 = highscore4;
-            highscore4 = score;
-
-            username5 = username4;
-             username4 = prompt("Please enter your username");
-        }
-         if (score > highscore5) {
-            highscore5 = score;
-
-             username5 = prompt("Please enter your username");
         }
     }
 }
