@@ -169,8 +169,8 @@ function placeFood() {
 
 function ArithmeticQuestions() {
     //default math arithmetic
-num1 = Math.floor(Math.random() * 10000);
-num2 = Math.floor(Math.random() * 10000);
+num1 = Math.floor(Math.random() * 1000);
+num2 = Math.floor(Math.random() * 1000);
 sign = Math.floor(Math.random() * 4) + 1;
     if (sign == 1) {
     correct = num1 + num2;  
@@ -184,6 +184,7 @@ sign = Math.floor(Math.random() * 4) + 1;
     else if (sign == 4) {
     correct = num1 / num2;
     }
+    
 }
 
 function correctanswer() {
