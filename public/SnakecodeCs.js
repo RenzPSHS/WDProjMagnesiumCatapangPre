@@ -40,17 +40,13 @@ var username3;
 var username4;
 var username5;
 
-const lboard =[
-    {name:username1, score: highscore1},
-    {name:username2, score: highscore2},
-    {name:username3, score: highscore3},
-    {name:username4, score: highscore4},
-    {name:username5, score: highscore5}
-]
 
+var correct;
 
 window.onload = function() {
 play();
+ArithmeticQuestions();
+correctanswer();
 var restartbutton = document.getElementById("restartbutton");
 restartbutton.addEventListener("click", play)
 
@@ -83,10 +79,10 @@ function play() {
     placeFood();
     document.addEventListener("keyup", changeDirection)
     //update();
-    this.setInterval(update, 1000/10); //100 ms
-    this.setInterval(ArithmeticQuestions, 1000*30); //30 s
-    this.setInterval(correctanswer, 1000*30); //30s
-    this.setInterval(resetconditions, 1000*45); //45s
+    setInterval(update, 1000/10); //100 ms
+    setInterval(ArithmeticQuestions, 1000*30); //30 s
+    setInterval(correctanswer, 1000*30); //30s
+    setInterval(resetconditions, 1000*5); //5s
     return;
 }
 
@@ -142,53 +138,6 @@ function update() {
             alert ("Game Over");
         }
     }
-    if (gameover == true) {
-        if (score > highscore1) {
-            highscore2 = highscore1;
-            highscore3 = highscore2;
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore1 = score;
-
-            username2 = username1;
-            username3 = username2;
-            username4 = username3;
-            username5 = username4;
-             username1 = prompt("Please enter your username");
-        }
-         if (score > highscore2) {
-            highscore3 = highscore2;
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore2 = score;
-
-            username3 = username2;
-            username4 = username3;
-            username5 = username4;
-             username2 = prompt("Please enter your username");
-        }
-         if (score > highscore3) {
-            highscore4 = highscore3;
-            highscore5 = highscore4;
-            highscore3 = score;
-
-            username4 = username3;
-            username5 = username4;
-             username3 = prompt("Please enter your username");
-        }
-         if (score > highscore4) {
-            highscore5 = highscore4;
-            highscore4 = score;
-
-            username5 = username4;
-             username4 = prompt("Please enter your username");
-        }
-         if (score > highscore5) {
-            highscore5 = score;
-
-             username5 = prompt("Please enter your username");
-        }
-    }
 }
 
 function changeDirection(e) {
@@ -240,10 +189,10 @@ sign = Math.floor(Math.random() * 4) + 1;
 function correctanswer() {
     which = Math.floor(Math.random() * 4) + 1;
     if (which == 1) {
-        button1.textContext = correct;
-        button2.textcontext = correct + Math.floor(Math.random() * 30);
-        button3.textcontext = correct - Math.floor(Math.random() * 30);
-        button4.textcontext = correct / Math.floor(Math.random() * 30);
+        button1.textContent = correct;
+        button2.textContent = correct + Math.floor(Math.random() * 30);
+        button3.textContent = correct - Math.floor(Math.random() * 30);
+        button4.textContent = correct / Math.floor(Math.random() * 30);
 
         correct1 = true;
         correct2 = false;
@@ -251,10 +200,10 @@ function correctanswer() {
         correct4 = false;
     }
     else if (which == 2) {
-        button1.textContext = correct + Math.floor(Math.random() * 30);
-        button2.textcontext = correct;
-        button3.textcontext = correct - Math.floor(Math.random() * 30);
-        button4.textcontext = correct / Math.floor(Math.random() * 30);
+        button1.textContent = correct + Math.floor(Math.random() * 30);
+        button2.textContent = correct;
+        button3.textContent = correct - Math.floor(Math.random() * 30);
+        button4.textContent = correct / Math.floor(Math.random() * 30);
         
         correct2 = true;
         correct1 = true;
@@ -262,10 +211,10 @@ function correctanswer() {
         correct4 = false;
     }
     else if (which == 3) {
-        button1.textcontext = correct + Math.floor(Math.random() * 30);
-        button2.textcontext = correct - Math.floor(Math.random() * 30);
-        button3.textcontext = correct;
-        button4.textcontext = correct / Math.floor(Math.random() * 30);
+        button1.textContent = correct + Math.floor(Math.random() * 30);
+        button2.textContent = correct - Math.floor(Math.random() * 30);
+        button3.textContent = correct;
+        button4.textContent = correct / Math.floor(Math.random() * 30);
 
         correct3 = true;
         correct1 = false;
@@ -273,10 +222,10 @@ function correctanswer() {
         correct4 = false;
     }
     else if (which == 4) {
-        button1.textcontext = correct + Math.floor(Math.random() * 30);
-        button2.textcontext = correct / Math.floor(Math.random() * 30);
-        button3.textcontext = correct - Math.floor(Math.random() * 30);
-        button4.textcontext = correct;
+        button1.textContent = correct + Math.floor(Math.random() * 30);
+        button2.textContent = correct / Math.floor(Math.random() * 30);
+        button3.textContent = correct - Math.floor(Math.random() * 30);
+        button4.textContent = correct;
 
         correct4 = true;
         correct1 = false;
@@ -285,13 +234,14 @@ function correctanswer() {
     }
 
 }
+
     function picker1() {
     if (correct1 == true) {
         correctans = true;
     }
     if (correct1 == false) {
         //double speed
-         this.setInterval(update, 1000/20); //50 ms
+         setInterval(update, 1000/20); //50 ms
     }
     }
 
@@ -301,7 +251,7 @@ function correctanswer() {
     }
     if (correct2 == false) {
         //double speed
-         this.setInterval(update, 1000/20); //50 ms
+         setInterval(update, 1000/20); //50 ms
     }
     }
 
@@ -311,7 +261,7 @@ function correctanswer() {
     }
     if (correct3 == false) {
         //double speed
-         this.setInterval(update, 1000/20); //50 ms
+         setInterval(update, 1000/20); //50 ms
     }
     }
 
@@ -321,11 +271,11 @@ function correctanswer() {
     }
     if (correct4 == false) {
         //double speed
-         this.setInterval(update, 1000/20); //50 ms
+         setInterval(update, 1000/20); //50 ms
     }
     }
 
     function resetconditions() {
-        this.setInterval(update, 1000/10); //100 ms
+        setInterval(update, 1000/10); //100 ms
         correctans = false;
     }
