@@ -35,7 +35,7 @@
 ![Leaderboard](Wire-frame/LeaderboardNEW.png)
 
 ### About Us Page
-![AboutUs](Wire-frame/aboutUsNEW.png)
+![AboutUs](Wire-frame/AboutUsNEW.png)
 
 ### Project Proposal Update Plan
 
