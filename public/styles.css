@@ -19,13 +19,13 @@
             }
             #navbar {
                 list-style-type: none;
-                color: rgb(21, 89, 216);
                 margin: 0;
                 padding: 0;
-                overflow: hidden;
-                display: flex;
+                display: grid; /* Changed from flex */
+                grid-template-columns: repeat(4, auto); /* Creates 4 columns */
+                gap: 10px 40px; /* Vertical and horizontal spacing */
                 justify-content: center;
-                gap: 15px;
+                text-align: left;
             }
 
             .logo {
@@ -49,18 +49,18 @@
 
             .links {
                 text-decoration: none;
-                font-size: 2rem;
+                font-size: 1.5rem; /* Adjusted to match image scale */
+                color: #000; /* Most links in the image appear black */
                 transition: color 0.3s ease-in;
-                
-            }
+}
             .links:hover {
                 text-decoration: underline;
                 color:rgb(146, 147, 212);
             }
             
             #webpage {
-                font-size: 2rem;
-                color: rgb(0, 17, 46);
+                font-size: 1.5rem;
+                color: #000;
                 text-decoration: underline;
                 font-weight: bold;
             }
