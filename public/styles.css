@@ -18,14 +18,30 @@
 
             }
             #navbar {
+                display: grid;
+    /* This forces exactly 4 columns */
+                grid-template-columns: repeat(4, minmax(150px, auto)); 
+                gap: 15px 40px;
+    
                 list-style-type: none;
+                padding: 0;
+                margin: 0 auto;
+                width: fit-content; /* Keeps the grid centered */
+                justify-items: start; /* Aligns all text to the left of their column */
+}
+
+            #navbar li {
                 margin: 0;
                 padding: 0;
-                display: grid; /* Changed from flex */
-                grid-template-columns: repeat(4, auto); /* Creates 4 columns */
-                gap: 10px 40px; /* Vertical and horizontal spacing */
-                justify-content: center;
-                text-align: left;
+                display: flex;
+                align-items: center;
+            }
+
+            #webpage, .links {
+                margin: 0; /* Removes default paragraph margins */
+                font-size: 1.8rem;
+                white-space: nowrap;
+                line-height: 1.2;
             }
 
             .logo {
@@ -59,10 +75,9 @@
             }
             
             #webpage {
-                font-size: 1.5rem;
-                color: #000;
                 text-decoration: underline;
                 font-weight: bold;
+                display: inline-block;
             }
 
             .brand_footer {
