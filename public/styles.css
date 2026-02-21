@@ -19,15 +19,14 @@
             }
             #navbar {
                 display: grid;
-    /* This forces exactly 4 columns */
                 grid-template-columns: repeat(4, minmax(150px, auto)); 
                 gap: 15px 40px;
     
                 list-style-type: none;
                 padding: 0;
                 margin: 0 auto;
-                width: fit-content; /* Keeps the grid centered */
-                justify-items: start; /* Aligns all text to the left of their column */
+                width: fit-content;
+                justify-items: start;
 }
 
             #navbar li {
@@ -38,7 +37,7 @@
             }
 
             #webpage, .links {
-                margin: 0; /* Removes default paragraph margins */
+                margin: 0;
                 font-size: 1.8rem;
                 white-space: nowrap;
                 line-height: 1.2;
@@ -47,6 +46,7 @@
             .logo {
                 height: 5rem;
                 width: auto;
+                vertical-align: middle;
             }
             #title {
                 margin: 0;
@@ -54,6 +54,8 @@
                 background: linear-gradient(to right, #17bd1f, #3fc245);
                 background-clip: text;
                 color: transparent;
+                display: inline; 
+                vertical-align: middle;
             }
 
             .brand {
@@ -61,12 +63,13 @@
                 align-items: center;
                 justify-content: center;
                 vertical-align: middle;
+                text-align: center; 
             }
 
             .links {
                 text-decoration: none;
-                font-size: 1.5rem; /* Adjusted to match image scale */
-                color: #000; /* Most links in the image appear black */
+                font-size: 1.5rem;
+                color: #000;
                 transition: color 0.3s ease-in;
 }
             .links:hover {
@@ -78,6 +81,9 @@
                 text-decoration: underline;
                 font-weight: bold;
                 display: inline-block;
+                margin: 0;
+                font-size: 1.5rem;
+                cursor: default;
             }
 
             .brand_footer {

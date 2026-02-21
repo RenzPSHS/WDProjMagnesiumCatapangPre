@@ -7,10 +7,115 @@
         <link rel="icon" href="../assets/Snake_Logo.png" type="image/png">
         <link rel="stylesheet" href="styles.css" />
         <style>
+            body {
+                background-color: #fcfcb3;
+                font-family: sans-serif;
+                margin: 0;
+            }
 
+            .main-body-section {
+                display: flex;
+                justify-content: space-between;
+                max-width: 1200px;
+                
+                margin-top: 250px;
+                margin-bottom: 50px;
+                margin-left: auto; 
+                margin-right: auto;
+                
+                padding: 0 20px;
+                gap: 30px;
+            }
+
+            .col-settings {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .setting-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .slider-container {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            input[type="range"] {
+                flex-grow: 1;
+                cursor: pointer;
+            }
+
+            .btn-box {
+                padding: 15px;
+                background-color: white;
+                border: 2px solid black;
+                font-weight: bold;
+                font-size: 1rem;
+                cursor: pointer;
+                text-align: center;
+                margin-top: auto; 
+            }
+
+            .col-leaderboard {
+                flex: 1.5;
+                border: 3px solid black; 
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+
+            .rank-item {
+                padding: 12px 15px;
+                border-bottom: 2px solid black;
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+
+            .rank-item:last-child {
+                border-bottom: none;
+            }
+
+            .col-stats {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .stats-display-box {
+                border: 3px solid black;
+                background-color: white;
+                padding: 20px;
+                text-align: center;
+                min-height: 150px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .slider-label {
+                min-width: 75px; 
+                font-weight: bold;
+            }
+
+            @media (max-width: 768px) {
+                .main-body-section {
+                    flex-direction: column;
+                    margin-top: 50px;
+                }
+            }
         </style>
     </head>
     <body>
+        
         <header id="topbar">
             <div class="brand">
             <img class="logo" src="../assets/Snake_Logo.png" alt="logo">
@@ -22,31 +127,55 @@
                     <li><a class="links" href="guide.html">How To Play</a></li>
                     <li><a class="links" href="game.html">The Game</a></li>
                     <li><a class="links" href="account.html">Account</a></li>
+                    
                     <li><a class="links" href="settings.html">Settings</a></li>
                     <li><a class="links" href="leaderboard.html">Leaderboard</a></li>
-                    <li><p id="webpage">Leaderboard[Modified]<p></li>
+                    <li><p id="webpage">Leaderboard[Modified]</p></li>
                     <li><a class="links" href="about.html">About Us</a></li>
                 </ul>
             </nav>
         </header>
-        <section>
-            <div>
-                <h2>Your Stats</h2>
-                <p>
-                    <ul>
-                        <li>
 
-                        </li>
-                    </ul>
-                </p>
+        <section class="main-body-section">
+            
+            <div class="col-settings">
+                <div class="setting-group">
+                    <label>Book Spawning Rate:</label>
+                    <div class="slider-container">
+                    <input type="range" id="spawnRate" min="0" max="100" step="25" value="25">
+                    <span id="spawnText" class="slider-label">[Low]</span>
             </div>
-            <div>
-                <h1></h1>
-                <p>
+                </div>
+            <div class="setting-group">
+                <label>Snake Speed:</label>
+                <div class="slider-container">
+                <input type="range" id="snakeSpeed" min="0" max="100" step="25" value="50">
+                <span id="speedText" class="slider-label">[Medium]</span>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label>Time for Question:</label>
+                <div class="slider-container">
+                <input type="range" id="timeLimit" min="0" max="100" step="25" value="100">
+                <span id="timeText" class="slider-label">[Infinite]</span>
+                </div>
+            </div>
+            <button class="btn-box">Change Leaderboard</button>
+            </div>
 
-                </p>
+            <div class="col-leaderboard" id="leaderboard-container"></div>
+
+            <div class="col-stats">
+                <div class="stats-display-box">
+                    <h2>Your Stats</h2>
+                    <p>Hello <em>[Username]!</em></p>
+                    <p>Your current highest score is: <strong>[hps]</strong></p>
+                </div>
+                <button class="btn-box">Update Leaderboard</button>
             </div>
+
         </section>
+
         <footer>
             <div class="brand_footer">
                 <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
@@ -59,5 +188,74 @@
             </div>
             <p></p>
         </footer>
+
+        <script>
+        const spawnLabels = ["[Low]", "[Medium]", "[High]", "[Extreme]"];
+        const speedLabels = ["[Slowest]", "[Slow]", "[Medium]", "[Fast]", "[Fastest]"];
+        const timeLabels  = ["[10 sec]", "[30 sec]", "[60 sec]", "[90 sec]", "[Infinite]"];
+
+        function setupDynamicSlider(sliderId, textId, labelsArray) {
+            const slider = document.getElementById(sliderId);
+            const textSpan = document.getElementById(textId);
+
+        function getIndex() {
+            return (parseInt(slider.value) - parseInt(slider.min)) / 25;
+        }
+
+        slider.addEventListener('input', function() {
+            textSpan.innerText = labelsArray[getIndex()];
+        });
+            textSpan.innerText = labelsArray[getIndex()];
+        }
+
+        setupDynamicSlider('spawnRate', 'spawnText', spawnLabels);
+        setupDynamicSlider('snakeSpeed', 'speedText', speedLabels);
+        setupDynamicSlider('timeLimit', 'timeText', timeLabels);
+
+        const playerScores = [
+            { username: "SnakeCharmer", score: 450 },
+            { username: "PythonPro", score: 890 },
+            { username: "AppleEater", score: 120 },
+            { username: "SlipperySnek", score: 600 },
+            { username: "Gamer123", score: 340 },
+            { username: "VenomStrike", score: 750 },
+            { username: "CobraKing", score: 200 },
+            { username: "CodeNinja", score: 410 },
+            { username: "PixelPusher", score: 800 },
+            { username: "RetroGamer", score: 550 },
+            { username: "WebDevWizard", score: 950 },
+            { username: "CSSMaster", score: 300 }
+        ];
+
+        function getOrdinalSuffix(i) {
+            let j = i % 10, k = i % 100;
+            if (j == 1 && k != 11) { return i + "st"; }
+            if (j == 2 && k != 12) { return i + "nd"; }
+            if (j == 3 && k != 13) { return i + "rd"; }
+            return i + "th";
+        }
+
+            function loadLeaderboard() {
+        const container = document.getElementById("leaderboard-container");
+        container.innerHTML = ""; 
+
+        const sortedPlayers = playerScores.sort((a, b) => b.score - a.score);
+        const maxPlayersToShow = Math.min(sortedPlayers.length, 20);
+
+            for (let i = 0; i < maxPlayersToShow; i++) {
+                let player = sortedPlayers[i];
+                let rankText = getOrdinalSuffix(i + 1);
+
+                let rankDiv = document.createElement("div");
+                rankDiv.className = "rank-item";
+            
+                rankDiv.innerHTML = `<strong>${rankText}</strong> &nbsp;|&nbsp; ${player.username} <span style="float: right;">${player.score}</span>`;
+                container.appendChild(rankDiv);
+                }
+            }
+            window.onload = function() {
+            loadLeaderboard();
+            };
+        </script>
     </body>
 </html>

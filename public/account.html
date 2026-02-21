@@ -3,53 +3,183 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Snakademic</title>
+        <title>Snakademic - Account</title>
         <link rel="icon" href="../assets/Snake_Logo.png" type="image/png">
         <link rel="stylesheet" href="styles.css" />
         <style>
+            .main-body-section {
+                display: flex;
+                justify-content: center;
+                max-width: 1200px;
+                
+                margin-top: 250px; 
+                margin-bottom: 50px;
+                margin-left: auto; 
+                margin-right: auto;
+                
+                padding: 0 20px;
+            }
 
+            .login-box {
+                background-color: white;
+                border: 3px solid black;
+                padding: 40px;
+                width: 100%;
+                max-width: 500px;
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .input-group label {
+                display: block;
+                font-weight: bold;
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+                color: black;
+            }
+
+            .input-group input {
+                width: 100%;
+                padding: 10px;
+                font-size: 1.2rem;
+                border: 2px solid black;
+                box-sizing: border-box;
+                outline: none;
+            }
+
+
+            .btn-row {
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+            }
+
+            .btn-center {
+                display: flex;
+                justify-content: center;
+            }
+
+            .btn-action {
+                background-color: white;
+                border: 2px solid black;
+                padding: 10px 0;
+                font-weight: bold;
+                font-size: 1.2rem;
+                cursor: pointer;
+                text-transform: uppercase;
+                width: 100%;
+                transition: background 0.2s;
+            }
+
+            .btn-action:hover {
+                background-color: #eee;
+            }
+
+
+            footer {
+                text-align: center;
+                margin-top: 50px;
+                padding: 20px;
+                background-color: #e6c845;
+            }
+
+            @media (max-width: 600px) {
+                .main-body-section {
+                    margin-top: 50px;
+                }
+                .title {
+                    font-size: 2rem;
+                }
+            }
         </style>
     </head>
     <body>
+        
         <header id="topbar">
             <div class="brand">
-            <img class="logo" src="../assets/Snake_Logo.png" alt="logo">
-            <h1 class="top" id="title">Snakademic</h1>
+                <img class="logo" src="../assets/Snake_Logo.png" alt="logo">
+                <h1 id="title">Snakademic</h1>
             </div>
             <nav>
                 <ul id="navbar">
                     <li><a class="links" href="../index.html">Home</a></li>
-                    <li><p id="webpage">How To Play</p></li>
+                    <li><a class="links" href="guide.html">How To Play</a></li>
                     <li><a class="links" href="game.html">The Game</a></li>
-                    <li><a class="links" href="account.html">Account</a></li>
+                    <li><p id="webpage">Account</p></li>
+            
                     <li><a class="links" href="settings.html">Settings</a></li>
                     <li><a class="links" href="leaderboard.html">Leaderboard</a></li>
-                    <li><a class="links" href="leaderboard[MOD]">Leaderboard[Modified]<a></li>
+                    <li><a class="links" href="leaderboard[MOD].html">Leaderboard[Modified]</a></li>
                     <li><a class="links" href="about.html">About Us</a></li>
                 </ul>
             </nav>
         </header>
-        <section>
-            <div>
-                <fieldset>
-                    <label>Username:
-                        <input type="text" id="username" name="username" placeholder="Enter your username">
-                    </label>
-                    
-                </fieldset>
+
+        <section class="main-body-section">
+
+            <div class="login-box">
+                
+                <div class="input-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password">
+                </div>
+
+                <div class="btn-row">
+                    <button id="btn-login" class="btn-action">LOGIN</button>
+                    <button id="btn-logout" class="btn-action">LOG-OUT</button>
+                </div>
+
             </div>
+
         </section>
+
+        <script>
+            window.onload = function() {
+                let savedUser = localStorage.getItem("currentUser");
+                if (savedUser) {
+                    document.getElementById("username").value = savedUser;
+                }
+            };
+
+            document.getElementById("btn-login").addEventListener("click", function() {
+                let usernameInput = document.getElementById("username").value;
+
+                if (usernameInput.trim() !== "") {
+                    localStorage.setItem("currentUser", usernameInput);
+                    alert("Welcome to Snakademic, " + usernameInput + "!");
+                    
+                } else {
+                    alert("Please enter a username first.");
+                }
+            });
+
+            document.getElementById("btn-logout").addEventListener("click", function() {
+                localStorage.removeItem("currentUser");
+                
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+                
+                alert("You have been logged out.");
+            });
+        </script>
+
         <footer>
             <div class="brand_footer">
                 <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
-                <h1 class="bTitle">Snakademic</h1>
+                <h1 class="bTitle" style="color: black; margin: 10px 0;">Snakademic</h1>
                 <p id="copyright">© 2025</p>
             </div>
             <div class="sources">
                 <h2>Sources:</h2>
                 <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube. https://www.youtube.com/watch?v=baBq5GAL0_U</p>
             </div>
-            <p></p>
         </footer>
+
     </body>
 </html>

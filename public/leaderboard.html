@@ -7,23 +7,85 @@
         <link rel="icon" type="image/png" href="../assets/Snake_Logo.png">
         <link rel="stylesheet" href="styles.css" />
         <style>
-        #scoreboard {
-            white-space: pre-line;
-            font-size: 24px;
-            font-weight: bold;
-            margin-right: 40rem;
-            margin-left: 40rem;
-            text-align: left;
-            word-spacing: 10rem;
-        }
+            .main-body-section {
+                display: flex;
+                justify-content: space-between;
+                max-width: 1200px;
+    
+                /* FIX: Add the large top margin back so it isn't hidden by the header */
+                margin-top: 250px; 
+                margin-bottom: 50px;
+                margin-left: auto;
+                margin-right: auto;
+    
+                padding: 0 20px;
+                gap: 30px;
+}
 
-        #TOP {
-            text-align: left;
-            word-spacing: 5rem;
-            margin-left: 40rem;
-            margin-right: 40rem;
-        }
+            .col-settings {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
 
+            .col-leaderboard {
+                flex: 1.5;
+                border: 3px solid black; 
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+
+            .rank-item {
+                padding: 12px 15px;
+                border-bottom: 2px solid black;
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+
+            .col-stats {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .stats-display-box {
+                border: 3px solid black;
+                background-color: white;
+                padding: 20px;
+                text-align: center;
+                min-height: 150px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .btn-box {
+                padding: 15px;
+                background-color: white;
+                border: 2px solid black;
+                font-weight: bold;
+                font-size: 1rem;
+                cursor: pointer;
+                text-align: center;
+            }
+
+            @media (max-width: 768px) {
+                .main-body-section {
+                    flex-direction: column;
+                }
+                #navbar {
+                    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+                }
+                /* Hide empty column on mobile */
+                .col-settings {
+                    display: none;
+                }
+            }
 
         </style>
     </head>
@@ -40,13 +102,32 @@
                     <li><a class="links" href="guide.html">How To Play</a></li>
                     <li><a class="links" href="game.html">The Game</a></li>
                     <li><a class="links" href="account.html">Account</a></li>
+
                     <li><a class="links" href="settings.html">Settings</a></li>
                     <li><p id="webpage">Leaderboard</p></li>
-                    <li><a class="links" href="leaderboard[MOD]">Leaderboard[Modified]<a></li>
+                    <li><a class="links" href="leaderboard[MOD].html">Leaderboard[Modified]</a></li>
                     <li><a class="links" href="about.html">About Us</a></li>
                 </ul>
             </nav>
         </header>
+
+        <section class="main-body-section">
+            
+            <div class="col-settings"></div>
+
+            <div class="col-leaderboard" id="leaderboard-container"></div>
+
+            <div class="col-stats">
+                <div class="stats-display-box">
+                    <h2>Your Stats</h2>
+                    <p>Hello <em id="display-username">[Username]!</em></p>
+                    <p>Your current highest score is: <strong id="display-hps">[hps]</strong></p>
+                </div>
+                <button id="btn-update-lb" class="btn-box">Update Leaderboard</button>
+            </div>
+
+        </section>
+
         <section>
             <div>
                 <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -56,9 +137,67 @@
             </div>
             <script src="SnakecodeCs.js"></script>
         </section>
-        <section>
-            <h2 id="stats">Your Stats</h2>
-        </section>
+
+        <script>
+            // Dummy data for the leaderboard
+            const playerScores = [
+                { username: "SnakeCharmer", score: 450 },
+                { username: "PythonPro", score: 890 },
+                { username: "AppleEater", score: 120 },
+                { username: "SlipperySnek", score: 600 },
+                { username: "Gamer123", score: 340 },
+                { username: "VenomStrike", score: 750 },
+                { username: "CobraKing", score: 200 },
+                { username: "CodeNinja", score: 410 },
+                { username: "PixelPusher", score: 800 },
+                { username: "RetroGamer", score: 550 },
+                { username: "WebDevWizard", score: 950 },
+                { username: "CSSMaster", score: 300 }
+            ];
+
+            // Helper function to add 'st', 'nd', 'rd', 'th'
+            function getOrdinalSuffix(i) {
+                let j = i % 10,
+                    k = i % 100;
+                if (j == 1 && k != 11) { return i + "st"; }
+                if (j == 2 && k != 12) { return i + "nd"; }
+                if (j == 3 && k != 13) { return i + "rd"; }
+                return i + "th";
+            }
+
+            // Main function to build the leaderboard
+            function loadLeaderboard() {
+                const container = document.getElementById("leaderboard-container");
+                container.innerHTML = ""; // Clear out anything currently in the box
+
+                // Sort players from highest to lowest score
+                const sortedPlayers = playerScores.sort((a, b) => b.score - a.score);
+
+                // Loop through up to 20 players
+                const maxPlayersToShow = Math.min(sortedPlayers.length, 20);
+
+                for (let i = 0; i < maxPlayersToShow; i++) {
+                    let player = sortedPlayers[i];
+                    let rankText = getOrdinalSuffix(i + 1);
+
+                    // Create a new div element
+                    let rankDiv = document.createElement("div");
+                    rankDiv.className = "rank-item";
+                    
+                    // Format the text inside the div
+                    rankDiv.innerHTML = `<strong>${rankText}</strong> &nbsp;|&nbsp; ${player.username} <span style="float: right;">${player.score}</span>`;
+
+                    // Add the new div to the container
+                    container.appendChild(rankDiv);
+                }
+            }
+
+            // Run the function as soon as the window loads
+            window.onload = function() {
+                loadLeaderboard();
+            };
+        </script>
+
         <footer>
             <div class="brand_footer">
                 <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
