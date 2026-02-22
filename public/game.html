@@ -3,53 +3,75 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Snakademic</title>
+        <title>Snakademic - The Game</title>
         <link rel="icon" href="../assets/Snake_Logo.png" type="image/png">
         <link rel="stylesheet" href="styles.css" />
         <style>
-        body {
-            text-align: center;
+            body {
+                text-align: center;
+                background-color: #fcfcb3;
+                font-family: sans-serif;
+                margin: 0;
             }  
-        
-        #restartbutton {
-            font-size: 20px;
-            padding: 10px 20px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
+            
 
-        #board {
-            position: relative;
-            margin: 0 auto;
-            z-index: 15;
-        }
+            .game-container {
+                margin-top: 220px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 
-        #button1 {
-            font-size: 20px;
-            padding: 10px 20px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        #button2 {
-            font-size: 20px;
-            padding: 10px 20px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        #button3 {
-            font-size: 20px;
-            padding: 10px 20px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        #button4 {
-            font-size: 20px;
-            padding: 10px 20px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
+            #board {
+                background-color: black;
+                border: 5px solid #547c55;
+                box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            }
 
-        
+            #restartbutton {
+                font-size: 1.2rem;
+                font-weight: bold;
+                padding: 10px 30px;
+                margin-top: 20px;
+                cursor: pointer;
+                background-color: white;
+                border: 2px solid black;
+            }
+
+            #questionbox {
+                margin-top: 20px;
+                padding: 20px;
+                background-color: white;
+                border: 3px solid black;
+                max-width: 600px;
+                width: 100%;
+                margin-bottom: 50px;
+            }
+
+            #question {
+                font-size: 1.8rem;
+                margin-top: 0;
+            }
+
+            .answer-buttons {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .answer-btn {
+                font-size: 1.2rem;
+                font-weight: bold;
+                padding: 15px;
+                cursor: pointer;
+                background-color: #f5c952;
+                border: 2px solid black;
+                transition: background 0.2s;
+            }
+
+            .answer-btn:hover {
+                background-color: #e6b831;
+            }
         </style>
     </head>
 
@@ -57,7 +79,7 @@
         <header id="topbar">
             <div class="brand">
                 <img class="logo" src="../assets/Snake_Logo.png" alt="logo">
-                <h1 class="top" id="title">Snakademic</h1>
+                <h1 id="title">Snakademic</h1>
             </div>
             <nav>
                 <ul id="navbar">
@@ -73,28 +95,37 @@
                 </ul>
             </nav>
         </header>
-        <section>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+        <section class="game-container">
+            <h2 id="scoreDisplay">Score: 0</h2>
+            
+            <canvas id="board"></canvas>
+            
+            <button id="restartbutton">Restart Game</button>
+            
+            <div id="questionbox">
+                <h2 id="question">Eat an apple to get a question!</h2>
+                <div class="answer-buttons">
+                    <button class="answer-btn" id="button1">-</button>
+                    <button class="answer-btn" id="button2">-</button>
+                    <button class="answer-btn" id="button3">-</button>
+                    <button class="answer-btn" id="button4">-</button>
+                </div>
+            </div>
         </section>
-        <canvas id="board"></canvas>
-        <br><br>
-        <button id="restartbutton">Restart</button>
-        <div id="questionbox">
-            <h2 id="question"></h2>
-            <button id="button1">one</button>
-            <button id="button2">two</button>
-            <button id="button3">three</button>
-            <button id="button4">four</button>
-        </div>
-         <script src="SnakecodeCs.js"></script>
+
         <footer>
             <div class="brand_footer">
                 <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
                 <h1 class="bTitle">Snakademic</h1>
-                <p id="copyright">© 2025</p>
+                <p style="margin-left:auto; font-weight:bold;">© 2025</p>
             </div>
             <div class="sources">
                 <h2>Sources:</h2>
-                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube. https://www.youtube.com/watch?v=baBq5GAL0_U</p>
-            </footer>
+                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube.</p>
+            </div>
+        </footer>
+
+        <script src="SnakecodeCs.js"></script>
     </body>
+</html>

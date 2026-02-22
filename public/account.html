@@ -48,7 +48,6 @@
                 outline: none;
             }
 
-
             .btn-row {
                 display: flex;
                 justify-content: space-between;
@@ -75,23 +74,6 @@
             .btn-action:hover {
                 background-color: #eee;
             }
-
-
-            footer {
-                text-align: center;
-                margin-top: 50px;
-                padding: 20px;
-                background-color: #e6c845;
-            }
-
-            @media (max-width: 600px) {
-                .main-body-section {
-                    margin-top: 50px;
-                }
-                .title {
-                    font-size: 2rem;
-                }
-            }
         </style>
     </head>
     <body>
@@ -117,7 +99,6 @@
         </header>
 
         <section class="main-body-section">
-
             <div class="login-box">
                 
                 <div class="input-group">
@@ -132,14 +113,15 @@
 
                 <div class="btn-row">
                     <button id="btn-login" class="btn-action">LOGIN</button>
-                    <button id="btn-logout" class="btn-action">LOG-OUT</button>
+                    <button id="btn-register" class="btn-action">REGISTER</button>
                 </div>
+                <button id="btn-logout" class="btn-action" style="margin-top: 15px;">LOG-OUT</button>
 
             </div>
-
         </section>
 
         <script>
+            // 1. When page loads, check if someone is currently logged in
             window.onload = function() {
                 let savedUser = localStorage.getItem("currentUser");
                 if (savedUser) {
@@ -147,24 +129,74 @@
                 }
             };
 
-            document.getElementById("btn-login").addEventListener("click", function() {
-                let usernameInput = document.getElementById("username").value;
+            // Helper Function: Retrieves the "database" of all saved accounts
+            function getSavedAccounts() {
+                // If there are accounts, grab them. If not, create an empty object {}
+                return JSON.parse(localStorage.getItem("snakademicUsers")) || {};
+            }
 
-                if (usernameInput.trim() !== "") {
-                    localStorage.setItem("currentUser", usernameInput);
-                    alert("Welcome to Snakademic, " + usernameInput + "!");
-                    
+            // 2. REGISTER BUTTON: Creates a new account and saves the password
+            document.getElementById("btn-register").addEventListener("click", function() {
+                let usernameInput = document.getElementById("username").value.trim();
+                let passwordInput = document.getElementById("password").value.trim();
+
+                if (usernameInput === "" || passwordInput === "") {
+                    alert("Please enter both a Username and Password to register.");
+                    return;
+                }
+
+                let accounts = getSavedAccounts();
+
+                // Check if the username is already taken
+                if (accounts[usernameInput]) {
+                    alert("That username is already taken! Please pick a different one or login.");
                 } else {
-                    alert("Please enter a username first.");
+                    // Save the password to that username
+                    accounts[usernameInput] = passwordInput; 
+            
+                    // Save the updated list of accounts back to memory
+                    localStorage.setItem("snakademicUsers", JSON.stringify(accounts));
+            
+                    // Automatically log them in
+                    localStorage.setItem("currentUser", usernameInput);
+                    alert("Account created successfully! Welcome, " + usernameInput + "!");
                 }
             });
 
+            // 3. LOGIN BUTTON: Verifies the account and password
+            document.getElementById("btn-login").addEventListener("click", function() {
+                let usernameInput = document.getElementById("username").value.trim();
+                let passwordInput = document.getElementById("password").value.trim();
+
+                if (usernameInput === "" || passwordInput === "") {
+                    alert("Please enter your Username and Password.");
+                    return;
+                }
+
+                let accounts = getSavedAccounts();
+
+                // Check if account exists
+                if (!accounts[usernameInput]) {
+                    alert("Account not found. Please click 'Register' to create one first.");
+                } 
+                // Check if password matches what was saved
+                else if (accounts[usernameInput] !== passwordInput) {
+                    alert("Incorrect password! Please try again.");
+                } 
+                // Success!
+                else {
+                    localStorage.setItem("currentUser", usernameInput);
+                    alert("Login successful. Welcome back, " + usernameInput + "!");
+                }
+            });
+
+            // 4. LOGOUT BUTTON: Clears the current user
             document.getElementById("btn-logout").addEventListener("click", function() {
                 localStorage.removeItem("currentUser");
-                
+        
                 document.getElementById("username").value = "";
                 document.getElementById("password").value = "";
-                
+        
                 alert("You have been logged out.");
             });
         </script>

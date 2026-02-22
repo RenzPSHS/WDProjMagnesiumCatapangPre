@@ -60,6 +60,11 @@
                 cursor: pointer;
                 text-align: center;
                 margin-top: auto; 
+                transition: background 0.2s;
+            }
+
+            .btn-box:hover {
+                background-color: #eee;
             }
 
             .col-leaderboard {
@@ -109,7 +114,7 @@
             @media (max-width: 768px) {
                 .main-body-section {
                     flex-direction: column;
-                    margin-top: 50px;
+                    margin-top: 150px;
                 }
             }
         </style>
@@ -142,7 +147,7 @@
                 <div class="setting-group">
                     <label>Book Spawning Rate:</label>
                     <div class="slider-container">
-                    <input type="range" id="spawnRate" min="0" max="100" step="25" value="25">
+                    <input type="range" id="spawnRate" min="25" max="100" step="25" value="25">
                     <span id="spawnText" class="slider-label">[Low]</span>
             </div>
                 </div>
@@ -160,7 +165,7 @@
                 <span id="timeText" class="slider-label">[Infinite]</span>
                 </div>
             </div>
-            <button class="btn-box">Change Leaderboard</button>
+            <button id="btn-change-lb" class="btn-box">Change Leaderboard</button>
             </div>
 
             <div class="col-leaderboard" id="leaderboard-container"></div>
@@ -168,10 +173,11 @@
             <div class="col-stats">
                 <div class="stats-display-box">
                     <h2>Your Stats</h2>
-                    <p>Hello <em>[Username]!</em></p>
-                    <p>Your current highest score is: <strong>[hps]</strong></p>
+                    <p>Hello <em id="display-username">[Username]!</em></p>
+    
+                    <p>Your current highest score is: <strong id="display-hps">[hps]</strong></p>
                 </div>
-                <button class="btn-box">Update Leaderboard</button>
+                <button id="btn-update-lb" class="btn-box">Update Leaderboard</button>
             </div>
 
         </section>
@@ -184,12 +190,15 @@
             </div>
             <div class="sources">
                 <h2>Sources:</h2>
-                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube. https://www.youtube.com/watch?v=baBq5GAL0_U</p>
+                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube.</p>
             </div>
-            <p></p>
         </footer>
 
-        <script>
+    <script>
+    // ==========================================
+    // 1. DYNAMIC TICK SLIDER LOGIC
+    // ==========================================
+    
         const spawnLabels = ["[Low]", "[Medium]", "[High]", "[Extreme]"];
         const speedLabels = ["[Slowest]", "[Slow]", "[Medium]", "[Fast]", "[Fastest]"];
         const timeLabels  = ["[10 sec]", "[30 sec]", "[60 sec]", "[90 sec]", "[Infinite]"];
@@ -198,35 +207,63 @@
             const slider = document.getElementById(sliderId);
             const textSpan = document.getElementById(textId);
 
-        function getIndex() {
-            return (parseInt(slider.value) - parseInt(slider.min)) / 25;
+            function getIndex() {
+                let index = (parseInt(slider.value) - parseInt(slider.min)) / 25;
+                if (index >= labelsArray.length) index = labelsArray.length - 1;
+                if (index < 0) index = 0;
+                return index;
+            }
+
+            slider.addEventListener('input', function() {
+                textSpan.innerText = labelsArray[getIndex()];
+            });
+
+            textSpan.innerText = labelsArray[getIndex()];
         }
 
-        slider.addEventListener('input', function() {
-            textSpan.innerText = labelsArray[getIndex()];
-        });
-            textSpan.innerText = labelsArray[getIndex()];
+
+        // ==========================================
+        // 2. ACCOUNT & STATS LOGIC
+        // ==========================================
+        
+        function loadPersonalStats() {
+            let currentUsername = localStorage.getItem("currentUser") || "Guest";
+            let highestScore = localStorage.getItem("highestScore") || 0;
+
+            let nameEl = document.getElementById("display-username");
+            let hpsEl = document.getElementById("display-hps");
+            
+            if (nameEl) nameEl.innerText = currentUsername + "!";
+            if (hpsEl) hpsEl.innerText = highestScore;
         }
 
-        setupDynamicSlider('spawnRate', 'spawnText', spawnLabels);
-        setupDynamicSlider('snakeSpeed', 'speedText', speedLabels);
-        setupDynamicSlider('timeLimit', 'timeText', timeLabels);
 
-        const playerScores = [
-            { username: "SnakeCharmer", score: 450 },
-            { username: "PythonPro", score: 890 },
-            { username: "AppleEater", score: 120 },
-            { username: "SlipperySnek", score: 600 },
-            { username: "Gamer123", score: 340 },
-            { username: "VenomStrike", score: 750 },
-            { username: "CobraKing", score: 200 },
-            { username: "CodeNinja", score: 410 },
-            { username: "PixelPusher", score: 800 },
-            { username: "RetroGamer", score: 550 },
-            { username: "WebDevWizard", score: 950 },
-            { username: "CSSMaster", score: 300 }
-        ];
+        // ==========================================
+        // 3. STRICT SCORE FILTERING
+        // ==========================================
+        
+        function fetchScores() {
+            let currentSpawn = parseInt(document.getElementById("spawnRate").value);
+            let currentSpeed = parseInt(document.getElementById("snakeSpeed").value);
+            let currentTime = parseInt(document.getElementById("timeLimit").value);
 
+            let allSavedScores = JSON.parse(localStorage.getItem("snakademicScores")) || [];
+
+            // FILTER! Only keep real scores with perfectly matching settings
+            let filteredScores = allSavedScores.filter(function(playerData) {
+                return playerData.spawnRate === currentSpawn &&
+                       playerData.snakeSpeed === currentSpeed &&
+                       playerData.timeLimit === currentTime;
+            });
+
+            return filteredScores;
+        }
+
+
+        // ==========================================
+        // 4. LEADERBOARD RENDERING
+        // ==========================================
+        
         function getOrdinalSuffix(i) {
             let j = i % 10, k = i % 100;
             if (j == 1 && k != 11) { return i + "st"; }
@@ -235,12 +272,21 @@
             return i + "th";
         }
 
-            function loadLeaderboard() {
-        const container = document.getElementById("leaderboard-container");
-        container.innerHTML = ""; 
+        function loadLeaderboard(dataArray) {
+            const container = document.getElementById("leaderboard-container");
+            if (!container) return;
+            
+            container.innerHTML = ""; 
 
-        const sortedPlayers = playerScores.sort((a, b) => b.score - a.score);
-        const maxPlayersToShow = Math.min(sortedPlayers.length, 20);
+            // Empty State Handling
+            if (dataArray.length === 0) {
+                container.innerHTML = "<div style='padding: 30px; text-align: center; font-size: 1.2rem; font-weight: bold; color: #555;'>No scores have been saved with these exact settings yet!</div>";
+                return;
+            }
+
+            const sortedPlayers = dataArray.sort((a, b) => b.score - a.score);
+            const maxPlayersToShow = Math.min(sortedPlayers.length, 20);
+            let currentUser = localStorage.getItem("currentUser");
 
             for (let i = 0; i < maxPlayersToShow; i++) {
                 let player = sortedPlayers[i];
@@ -248,14 +294,54 @@
 
                 let rankDiv = document.createElement("div");
                 rankDiv.className = "rank-item";
-            
                 rankDiv.innerHTML = `<strong>${rankText}</strong> &nbsp;|&nbsp; ${player.username} <span style="float: right;">${player.score}</span>`;
-                container.appendChild(rankDiv);
+                
+                if (currentUser && player.username === currentUser) {
+                    rankDiv.style.backgroundColor = "#fff9c4"; 
                 }
+
+                container.appendChild(rankDiv);
             }
-            window.onload = function() {
-            loadLeaderboard();
-            };
-        </script>
+        }
+
+
+        // ==========================================
+        // 5. INITIALIZATION & BUTTON CLICKS
+        // ==========================================
+        
+        window.onload = function() {
+            setupDynamicSlider('spawnRate', 'spawnText', spawnLabels);
+            setupDynamicSlider('snakeSpeed', 'speedText', speedLabels);
+            setupDynamicSlider('timeLimit', 'timeText', timeLabels);
+
+            loadLeaderboard(fetchScores());
+            loadPersonalStats();
+
+            let btnChange = document.getElementById('btn-change-lb');
+            if (btnChange) {
+                btnChange.addEventListener('click', function() {
+                    let newScores = fetchScores();
+                    loadLeaderboard(newScores);
+                    
+                    let originalText = this.innerText;
+                    this.innerText = "Mode Changed!";
+                    setTimeout(() => this.innerText = originalText, 1500);
+                });
+            }
+
+            let btnUpdate = document.getElementById('btn-update-lb');
+            if (btnUpdate) {
+                btnUpdate.addEventListener('click', function() {
+                    let latestScores = fetchScores();
+                    loadLeaderboard(latestScores);
+                    loadPersonalStats(); 
+                    
+                    let originalText = this.innerText;
+                    this.innerText = "Updated!";
+                    setTimeout(() => this.innerText = originalText, 1500);
+                });
+            }
+        };
+    </script>
     </body>
 </html>

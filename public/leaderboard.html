@@ -3,16 +3,22 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Snakademic</title>
+        <title>Snakademic - Leaderboard</title>
         <link rel="icon" type="image/png" href="../assets/Snake_Logo.png">
         <link rel="stylesheet" href="styles.css" />
         <style>
+            body {
+                background-color: #fcfcb3;
+                font-family: sans-serif;
+                margin: 0;
+            }
+
             .main-body-section {
                 display: flex;
                 justify-content: space-between;
                 max-width: 1200px;
     
-                /* FIX: Add the large top margin back so it isn't hidden by the header */
+                /* Keeps it pushed down below the fixed header */
                 margin-top: 250px; 
                 margin-bottom: 50px;
                 margin-left: auto;
@@ -20,7 +26,7 @@
     
                 padding: 0 20px;
                 gap: 30px;
-}
+            }
 
             .col-settings {
                 flex: 1;
@@ -44,6 +50,10 @@
                 border-bottom: 2px solid black;
                 font-weight: 500;
                 font-size: 1.1rem;
+            }
+            
+            .rank-item:last-child {
+                border-bottom: none;
             }
 
             .col-stats {
@@ -72,28 +82,32 @@
                 font-size: 1rem;
                 cursor: pointer;
                 text-align: center;
+                transition: background 0.2s;
+            }
+            
+            .btn-box:hover {
+                background-color: #eee;
             }
 
             @media (max-width: 768px) {
                 .main-body-section {
                     flex-direction: column;
+                    margin-top: 150px;
                 }
                 #navbar {
-                    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+                    grid-template-columns: repeat(2, 1fr); 
                 }
-                /* Hide empty column on mobile */
                 .col-settings {
                     display: none;
                 }
             }
-
         </style>
     </head>
     <body>
         <header id="topbar">
             <div class="brand">
-            <img class="logo" src="../assets/Snake_Logo.png" alt="logo">
-            <h1 class="top" id="title">Snakademic</h1>
+                <img class="logo" src="../assets/Snake_Logo.png" alt="logo">
+                <h1 id="title">Snakademic</h1>
             </div>
 
             <nav>
@@ -128,76 +142,6 @@
 
         </section>
 
-        <section>
-            <div>
-                <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            <h1></h1>
-            <p>
-            </p>
-            </div>
-            <script src="SnakecodeCs.js"></script>
-        </section>
-
-        <script>
-            // Dummy data for the leaderboard
-            const playerScores = [
-                { username: "SnakeCharmer", score: 450 },
-                { username: "PythonPro", score: 890 },
-                { username: "AppleEater", score: 120 },
-                { username: "SlipperySnek", score: 600 },
-                { username: "Gamer123", score: 340 },
-                { username: "VenomStrike", score: 750 },
-                { username: "CobraKing", score: 200 },
-                { username: "CodeNinja", score: 410 },
-                { username: "PixelPusher", score: 800 },
-                { username: "RetroGamer", score: 550 },
-                { username: "WebDevWizard", score: 950 },
-                { username: "CSSMaster", score: 300 }
-            ];
-
-            // Helper function to add 'st', 'nd', 'rd', 'th'
-            function getOrdinalSuffix(i) {
-                let j = i % 10,
-                    k = i % 100;
-                if (j == 1 && k != 11) { return i + "st"; }
-                if (j == 2 && k != 12) { return i + "nd"; }
-                if (j == 3 && k != 13) { return i + "rd"; }
-                return i + "th";
-            }
-
-            // Main function to build the leaderboard
-            function loadLeaderboard() {
-                const container = document.getElementById("leaderboard-container");
-                container.innerHTML = ""; // Clear out anything currently in the box
-
-                // Sort players from highest to lowest score
-                const sortedPlayers = playerScores.sort((a, b) => b.score - a.score);
-
-                // Loop through up to 20 players
-                const maxPlayersToShow = Math.min(sortedPlayers.length, 20);
-
-                for (let i = 0; i < maxPlayersToShow; i++) {
-                    let player = sortedPlayers[i];
-                    let rankText = getOrdinalSuffix(i + 1);
-
-                    // Create a new div element
-                    let rankDiv = document.createElement("div");
-                    rankDiv.className = "rank-item";
-                    
-                    // Format the text inside the div
-                    rankDiv.innerHTML = `<strong>${rankText}</strong> &nbsp;|&nbsp; ${player.username} <span style="float: right;">${player.score}</span>`;
-
-                    // Add the new div to the container
-                    container.appendChild(rankDiv);
-                }
-            }
-
-            // Run the function as soon as the window loads
-            window.onload = function() {
-                loadLeaderboard();
-            };
-        </script>
-
         <footer>
             <div class="brand_footer">
                 <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
@@ -208,8 +152,118 @@
                 <h2>Sources:</h2>
                 <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube. https://www.youtube.com/watch?v=baBq5GAL0_U</p>
             </div>
-            <p></p>
         </footer>
+
+        <script>
+            // --- 1. DATA FETCHING & DEDUPLICATION ---
+            
+            function fetchScores() {
+                // Grab ONLY real scores played by users from localStorage
+                let allScores = JSON.parse(localStorage.getItem("snakademicScores")) || [];
+
+                // Logic to find only the absolute HIGHEST score for each player
+                let highestScoresPerPlayer = {};
+
+                for (let i = 0; i < allScores.length; i++) {
+                    let entry = allScores[i];
+                    let name = entry.username;
+                    let currentScore = entry.score;
+
+                    // If we haven't added this player yet, OR if this score is higher than their old one
+                    if (!highestScoresPerPlayer[name] || currentScore > highestScoresPerPlayer[name]) {
+                        highestScoresPerPlayer[name] = currentScore; // Save the new highest score
+                    }
+                }
+
+                // Convert that clean list back into an array so the leaderboard can read it
+                let finalLeaderboard = Object.keys(highestScoresPerPlayer).map(function(name) {
+                    return { username: name, score: highestScoresPerPlayer[name] };
+                });
+
+                return finalLeaderboard;
+            }
+
+            // --- 2. PERSONAL STATS INJECTION ---
+            
+            function loadPersonalStats() {
+                let currentUsername = localStorage.getItem("currentUser") || "Guest";
+                let highestScore = localStorage.getItem("highestScore") || 0;
+
+                let nameEl = document.getElementById("display-username");
+                let hpsEl = document.getElementById("display-hps");
+                
+                if (nameEl) nameEl.innerText = currentUsername + "!";
+                if (hpsEl) hpsEl.innerText = highestScore;
+            }
+
+            // --- 3. LEADERBOARD RENDERING ---
+            
+            // Helper function to add 'st', 'nd', 'rd', 'th'
+            function getOrdinalSuffix(i) {
+                let j = i % 10, k = i % 100;
+                if (j == 1 && k != 11) { return i + "st"; }
+                if (j == 2 && k != 12) { return i + "nd"; }
+                if (j == 3 && k != 13) { return i + "rd"; }
+                return i + "th";
+            }
+
+            function loadLeaderboard(dataArray) {
+                const container = document.getElementById("leaderboard-container");
+                if (!container) return;
+                
+                container.innerHTML = ""; // Clear existing scores
+
+                // Empty State Handling (Consistent with the Modified Leaderboard)
+                if (dataArray.length === 0) {
+                    container.innerHTML = "<div style='padding: 30px; text-align: center; font-size: 1.2rem; font-weight: bold; color: #555;'>No scores have been saved yet! Play the game to be the first!</div>";
+                    return;
+                }
+
+                // Sort players from highest to lowest score
+                const sortedPlayers = dataArray.sort((a, b) => b.score - a.score);
+                const maxPlayersToShow = Math.min(sortedPlayers.length, 20);
+
+                let currentUser = localStorage.getItem("currentUser");
+
+                for (let i = 0; i < maxPlayersToShow; i++) {
+                    let player = sortedPlayers[i];
+                    let rankText = getOrdinalSuffix(i + 1);
+
+                    let rankDiv = document.createElement("div");
+                    rankDiv.className = "rank-item";
+                    rankDiv.innerHTML = `<strong>${rankText}</strong> &nbsp;|&nbsp; ${player.username} <span style="float: right;">${player.score}</span>`;
+                    
+                    // Highlight the row if it belongs to the logged-in user
+                    if (currentUser && player.username === currentUser) {
+                        rankDiv.style.backgroundColor = "#fff9c4"; 
+                    }
+
+                    container.appendChild(rankDiv);
+                }
+            }
+
+            // --- 4. INITIALIZATION & BUTTON CLICKS ---
+            
+            window.onload = function() {
+                // Load the initial leaderboard & stats box
+                loadLeaderboard(fetchScores());
+                loadPersonalStats();
+
+                // Wire up "Update Leaderboard" Button
+                let btnUpdate = document.getElementById('btn-update-lb');
+                if (btnUpdate) {
+                    btnUpdate.addEventListener('click', function() {
+                        // Re-fetch data and re-render
+                        loadLeaderboard(fetchScores());
+                        loadPersonalStats(); 
+                        
+                        // Visual confirmation
+                        let originalText = this.innerText;
+                        this.innerText = "Updated!";
+                        setTimeout(() => this.innerText = originalText, 1500);
+                    });
+                }
+            };
+        </script>
     </body>
-    
 </html>

@@ -1,282 +1,354 @@
-//NOTE FOR RENZ THE LAST THING FOR THIS FILE IS TO DISPLAY THE QUESTIONS, and DISPLAY THE OPTIONS ON THE QUESTIONS and DISPLAY SCORE.
-
-
-//board
+// --- GAME VARIABLES ---
 var blockSize = 25;
 var rows = 20;
 var cols = 20;
 var board;
 var context;
 
-
-//snake head
-var snakeX = blockSize * 5;
-var snakeY = blockSize * 5;
+var snakeX, snakeY;
 var velocityX = 0;
 var velocityY = 0;
-
-//snake body
 var snakeBody = [];
 
-//food 
-var foodX;
-var foodY;
+// Book Image loading
+var bookImg = new Image();
+bookImg.src = "../assets/Book.png"; 
 
-var which;
-var correctans;
-
-var gameOver = false;
+var foods = [];
+var maxFoods = 1; 
 
 var score = 0;
-var highscore1 = 0;
-var highscore2 = 0;
-var highscore3 = 0;
-var highscore4 = 0;
-var highscore5 = 0;
+var gameOver = false;
+var isPaused = false; 
 
-var username1;
-var username2;
-var username3;
-var username4;
-var username5;
+// Interval & Timer Management
+var gameIntervalId;
+var questionTimerId; 
+var penaltyTimerId;  
 
+// Game Settings (Loaded from Local Storage)
+var baseSpeedMs = 100; 
+var timeLimitSeconds = 0; 
+var isPenalized = false; 
 
-var correct;
-
+// --- INITIALIZATION ---
 window.onload = function() {
-play();
-ArithmeticQuestions();
-correctanswer();
-var restartbutton = document.getElementById("restartbutton");
-restartbutton.addEventListener("click", play)
-
-var button1 = document.getElementById("button1");
-button1.addEventListener("click", picker1)
-
-var button2 = document.getElementById("button2");
-button2.addEventListener("click", picker2)
-
-var button3 = document.getElementById("button3");
-button3.addEventListener("click", picker3)
-
-var button4 = document.getElementById("button4");
-button4.addEventListener("click", picker4)
-}
-
-function play() {
     board = document.getElementById("board");
     board.height = rows * blockSize;
     board.width = cols * blockSize;
     context = board.getContext("2d");
 
+    // Load custom settings from memory
+    loadGameSettings();
+
+    // Event Listeners
+    document.getElementById("restartbutton").addEventListener("click", handleRestartClick);
+    document.addEventListener("keyup", changeDirection);
+
+    // Math Answer Buttons
+    document.getElementById("button1").addEventListener("click", function() { checkAnswer(this.isCorrect); });
+    document.getElementById("button2").addEventListener("click", function() { checkAnswer(this.isCorrect); });
+    document.getElementById("button3").addEventListener("click", function() { checkAnswer(this.isCorrect); });
+    document.getElementById("button4").addEventListener("click", function() { checkAnswer(this.isCorrect); });
+
+    // Initial Start
+    play();
+}
+
+function loadGameSettings() {
+    // 1. Get Snake Speed (Handles 0 correctly)
+    let savedSpeed = parseInt(localStorage.getItem('setting_snakeSpeed'));
+    if (isNaN(savedSpeed)) savedSpeed = 50;
+    baseSpeedMs = 150 - savedSpeed;
+
+    // 2. Get Time Limit (Handles 0 correctly)
+    let savedTime = parseInt(localStorage.getItem('setting_timeLimit'));
+    if (isNaN(savedTime)) savedTime = 25;
+    
+    if (savedTime === 0) timeLimitSeconds = 10;
+    else if (savedTime === 25) timeLimitSeconds = 30;
+    else if (savedTime === 50) timeLimitSeconds = 60;
+    else if (savedTime === 75) timeLimitSeconds = 90;
+    else if (savedTime === 100) timeLimitSeconds = 0; // Infinite
+
+    // 3. Get Spawning Rate (Default to 25/Low if empty)
+    let savedSpawn = parseInt(localStorage.getItem('setting_spawnRate'));
+    if (isNaN(savedSpawn)) savedSpawn = 25;
+    maxFoods = savedSpawn / 25; 
+}
+
+function setGameSpeed(speedMs) {
+    if (gameIntervalId) clearInterval(gameIntervalId);
+    if (!isPaused && !gameOver) {
+        gameIntervalId = setInterval(update, speedMs);
+    }
+}
+
+// --- CORE GAME LOOP ---
+function play() {
     velocityX = 0;
     velocityY = 0;
     snakeBody = [];
     snakeX = (blockSize * 5);
     snakeY = (blockSize * 5);
+    score = 0;
     gameOver = false;
+    isPaused = false;
+    isPenalized = false;
+    
+    document.getElementById("scoreDisplay").innerText = "Score: " + score;
+    document.getElementById("question").innerText = "Eat a book to get a question!";
+    clearQuestionTimer();
+    if (penaltyTimerId) clearInterval(penaltyTimerId);
 
+    foods = [];
     placeFood();
-    document.addEventListener("keyup", changeDirection)
-    //update();
-    setInterval(update, 1000/10); //100 ms
-    setInterval(ArithmeticQuestions, 1000*30); //30 s
-    setInterval(correctanswer, 1000*30); //30s
-    setInterval(resetconditions, 1000*5); //5s
-    return;
+    
+    setGameSpeed(baseSpeedMs);
 }
 
 function update() {
-    if (gameOver) {
-        return;
-    }
-    context.fillStyle="black";
-    context.fillRect(0,0,board.width,board.height);
+    if (gameOver || isPaused) return;
+
+    // A. Draw the main board (Background)
+    context.fillStyle = "black";
+    context.fillRect(0, 0, board.width, board.height);
     
-    context.fillStyle="red";
-    context.fillRect(foodX, foodY, blockSize, blockSize);
-    
-    if (snakeX == foodX && snakeY == foodY) {
-        if (correctans == true) {
-        if (snakeX == foodX && snakeY == foodY) {
-        snakeBody.push([foodX,foodY])
-        snakeBody.push([foodX + 1,foodY + 1])
-        placeFood();
-        score = score + 2;
-        }
+    // B. Draw the books with their white background squares
+    for (let i = 0; i < foods.length; i++) {
+        // Draw the background tile first
+        context.fillStyle = "red"; 
+        context.fillRect(foods[i].x, foods[i].y, blockSize, blockSize);
+        
+        // Draw the book image on top
+        context.drawImage(bookImg, foods[i].x, foods[i].y, blockSize, blockSize);
     }
-        else {
-        snakeBody.push([foodX,foodY])
-        placeFood();
-        score++;
+    
+    // C. Check if snake head hits any book
+    let ateFoodIndex = -1;
+    for (let i = 0; i < foods.length; i++) {
+        if (snakeX == foods[i].x && snakeY == foods[i].y) {
+            ateFoodIndex = i;
+            break;
         }
     }
 
-    for (let i = snakeBody.length-1; i > 0; i--) {
+    if (ateFoodIndex !== -1) {
+        snakeBody.push([foods[ateFoodIndex].x, foods[ateFoodIndex].y]); 
+        foods.splice(ateFoodIndex, 1); 
+        
+        isPaused = true;
+        clearInterval(gameIntervalId); 
+        generateNewQuestion(); 
+        return; 
+    }
+
+    // D. Move snake body
+    for (let i = snakeBody.length - 1; i > 0; i--) {
         snakeBody[i] = snakeBody[i-1];
     }
-    if(snakeBody.length) {
+    if (snakeBody.length) {
         snakeBody[0] = [snakeX, snakeY];
     }
 
-    context.fillStyle="lime";
+    // E. Draw snake head and body segments
+    context.fillStyle = "lime";
     snakeX += velocityX * blockSize;
     snakeY += velocityY * blockSize;
     context.fillRect(snakeX, snakeY, blockSize, blockSize);
+    
     for (let i = 0; i < snakeBody.length; i++) {
         context.fillRect(snakeBody[i][0], snakeBody[i][1], blockSize, blockSize);
     }
-    //game over conditions
-    if (snakeX < 0 || snakeX > cols*blockSize || snakeY < 0 || snakeY > rows*blockSize) {
-        gameOver = true;
-        alert ("Game Over");
-    }
 
+    // F. Collision Checks
+    if (snakeX < 0 || snakeX > (cols-1)*blockSize || snakeY < 0 || snakeY > (rows-1)*blockSize) {
+        handleGameOver();
+    }
     for (let i = 0; i < snakeBody.length; i++) {
-        if(snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
-            gameOver = true;
-            alert ("Game Over");
+        if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
+            handleGameOver();
         }
     }
 }
 
 function changeDirection(e) {
-    if ((e.code == "ArrowUp" && velocityY == 0) || (e.code == "KeyW" && velocityY == 0) ) {
-        velocityX = 0;
-        velocityY = -1; 
-        
-    }
-    else if ((e.code == "ArrowDown" && velocityY == 0) || (e.code == "KeyS" && velocityY == 0)) {
-        velocityX = 0;
-        velocityY = 1; 
-    }
-    else if ((e.code == "ArrowLeft" && velocityX == 0) || (e.code == "KeyA" && velocityX == 0)) {
-        velocityX = -1;
-        velocityY = 0; 
-    }
-    else if ((e.code == "ArrowRight" && velocityX == 0) || (e.code == "KeyD" && velocityX == 0)) {
-        velocityX = 1;
-        velocityY = 0;
+    if (isPaused) return; 
+
+    if ((e.code == "ArrowUp" || e.code == "KeyW") && velocityY != 1) {
+        velocityX = 0; velocityY = -1; 
+    } else if ((e.code == "ArrowDown" || e.code == "KeyS") && velocityY != -1) {
+        velocityX = 0; velocityY = 1; 
+    } else if ((e.code == "ArrowLeft" || e.code == "KeyA") && velocityX != 1) {
+        velocityX = -1; velocityY = 0; 
+    } else if ((e.code == "ArrowRight" || e.code == "KeyD") && velocityX != -1) {
+        velocityX = 1; velocityY = 0;
     }
 }
 
 function placeFood() {
-    foodX = Math.floor(Math.random() * cols) * blockSize;
-    foodY = Math.floor(Math.random() * rows) * blockSize;
+    while (foods.length < maxFoods) {
+        let fX = Math.floor(Math.random() * cols) * blockSize;
+        let fY = Math.floor(Math.random() * rows) * blockSize;
+        foods.push({ x: fX, y: fY });
+    }
 }
 
-//The Bug could be fixed, but we don't have enough time
+// --- MATH SYSTEM ---
+function generateNewQuestion() {
+    clearQuestionTimer();
 
-function ArithmeticQuestions() {
-    //default math arithmetic
-num1 = Math.floor(Math.random() * 1000);
-num2 = Math.floor(Math.random() * 1000);
-sign = Math.floor(Math.random() * 4) + 1;
-    if (sign == 1) {
-    correct = num1 + num2;  
-    }
-    else if (sign == 2) {
-    correct = num1 - num2;
-    }
-    else if (sign == 3) {
-    correct = num1 * num2;
-    }
+    let num1 = Math.floor(Math.random() * 20) + 1; 
+    let num2 = Math.floor(Math.random() * 20) + 1;
+    let sign = Math.floor(Math.random() * 4) + 1;
+    
+    let correctValue;
+    let symbol = "+";
+
+    if (sign == 1) { correctValue = num1 + num2; symbol = "+"; }
+    else if (sign == 2) { correctValue = num1 - num2; symbol = "-"; }
+    else if (sign == 3) { correctValue = num1 * num2; symbol = "x"; }
     else if (sign == 4) {
-    correct = num1 / num2;
+        correctValue = num1;
+        num1 = correctValue * num2; 
+        symbol = "÷";
     }
     
+    let baseQuestionText = `PAUSED! ${num1} ${symbol} ${num2} = ?`;
+    document.getElementById("question").textContent = baseQuestionText;
+
+    let options = [
+        correctValue,
+        correctValue + 5,
+        correctValue - 2,
+        correctValue + 10
+    ].sort(() => Math.random() - 0.5);
+
+    for (let i = 1; i <= 4; i++) {
+        let btn = document.getElementById("button" + i);
+        btn.textContent = options[i-1];
+        btn.isCorrect = (options[i-1] === correctValue); 
+        btn.disabled = false; 
+    }
+
+    if (timeLimitSeconds > 0) {
+        let timeLeft = timeLimitSeconds;
+        document.getElementById("question").textContent = `${baseQuestionText} (${timeLeft}s remaining)`;
+
+        questionTimerId = setInterval(function() {
+            timeLeft--;
+            if (timeLeft > 0) {
+                document.getElementById("question").textContent = `${baseQuestionText} (${timeLeft}s remaining)`;
+            } else {
+                checkAnswer(false, true); 
+            }
+        }, 1000);
+    }
 }
 
-function correctanswer() {
-    which = Math.floor(Math.random() * 4) + 1;
-    if (which == 1) {
-        button1.textContent = correct;
-        button2.textContent = correct + Math.floor(Math.random() * 30);
-        button3.textContent = correct - Math.floor(Math.random() * 30);
-        button4.textContent = correct / Math.floor(Math.random() * 30);
+function checkAnswer(isCorrect, isTimeout = false) {
+    clearQuestionTimer();
+    for (let i = 1; i <= 4; i++) document.getElementById("button" + i).disabled = true;
 
-        correct1 = true;
-        correct2 = false;
-        correct3 = false;
-        correct4 = false;
+    if (isCorrect) {
+        score += 2;
+        document.getElementById("question").textContent = "Correct! +2 Points!";
+    } else {
+        score += 1; 
+        applyPenalty(); 
     }
-    else if (which == 2) {
-        button1.textContent = correct + Math.floor(Math.random() * 30);
-        button2.textContent = correct;
-        button3.textContent = correct - Math.floor(Math.random() * 30);
-        button4.textContent = correct / Math.floor(Math.random() * 30);
+
+    document.getElementById("scoreDisplay").innerText = "Score: " + score;
+    placeFood();
+    isPaused = false;
+    setGameSpeed(isPenalized ? baseSpeedMs / 2 : baseSpeedMs); 
+}
+
+function applyPenalty() {
+    isPenalized = true;
+    if (penaltyTimerId) clearInterval(penaltyTimerId);
+    let penaltyTimeLeft = 10;
+    
+    penaltyTimerId = setInterval(() => {
+        penaltyTimeLeft--;
+        if (penaltyTimeLeft > 0) {
+            if (!isPaused && !gameOver) {
+                document.getElementById("question").textContent = `Speed Penalty Active! (${penaltyTimeLeft}s remaining)`;
+            }
+        } else {
+            clearInterval(penaltyTimerId);
+            isPenalized = false;
+            if (!isPaused && !gameOver) {
+                setGameSpeed(baseSpeedMs); 
+                document.getElementById("question").textContent = "Speed returned to normal.";
+            }
+        }
+    }, 1000); 
+}
+
+function clearQuestionTimer() {
+    if (questionTimerId) { clearInterval(questionTimerId); questionTimerId = null; }
+}
+
+// --- SAVE & RESTART ---
+function handleRestartClick() {
+    if (gameOver) { play(); return; }
+    if (confirm("Restart and save your score of " + score + "?")) {
+        if (score > 0) saveScore(true);
+        play();
+    }
+}
+
+function saveScore(isManualRestart) {
+    let currentUser = localStorage.getItem("currentUser");
+
+    if (currentUser && currentUser !== "Guest") {
+        let savedScores = JSON.parse(localStorage.getItem("snakademicScores")) || [];
         
-        correct2 = true;
-        correct1 = true;
-        correct3 = false;
-        correct4 = false;
-    }
-    else if (which == 3) {
-        button1.textContent = correct + Math.floor(Math.random() * 30);
-        button2.textContent = correct - Math.floor(Math.random() * 30);
-        button3.textContent = correct;
-        button4.textContent = correct / Math.floor(Math.random() * 30);
+        let activeSpawn = parseInt(localStorage.getItem('setting_spawnRate'));
+        if (isNaN(activeSpawn)) activeSpawn = 25;
+        let activeSpeed = parseInt(localStorage.getItem('setting_snakeSpeed'));
+        if (isNaN(activeSpeed)) activeSpeed = 50;
+        let activeTime = parseInt(localStorage.getItem('setting_timeLimit'));
+        if (isNaN(activeTime)) activeTime = 25;
 
-        correct3 = true;
-        correct1 = false;
-        correct2 = false;
-        correct4 = false;
-    }
-    else if (which == 4) {
-        button1.textContent = correct + Math.floor(Math.random() * 30);
-        button2.textContent = correct / Math.floor(Math.random() * 30);
-        button3.textContent = correct - Math.floor(Math.random() * 30);
-        button4.textContent = correct;
+        // Check if a score already exists for THIS specific mode
+        let existingIndex = savedScores.findIndex(s => 
+            s.username === currentUser &&
+            s.spawnRate === activeSpawn &&
+            s.snakeSpeed === activeSpeed &&
+            s.timeLimit === activeTime
+        );
 
-        correct4 = true;
-        correct1 = false;
-        correct2 = false;
-        correct3 = false;
-    }
+        if (existingIndex !== -1) {
+            // Update only if new score is higher
+            if (score > savedScores[existingIndex].score) {
+                savedScores[existingIndex].score = score;
+            }
+        } else {
+            // Save new entry
+            savedScores.push({ 
+                username: currentUser, score: score,
+                spawnRate: activeSpawn, snakeSpeed: activeSpeed, timeLimit: activeTime
+            });
+        }
+        
+        localStorage.setItem("snakademicScores", JSON.stringify(savedScores));
+        
+        // Update Personal Best
+        let hps = parseInt(localStorage.getItem("highestScore")) || 0;
+        if (score > hps) localStorage.setItem("highestScore", score);
 
+        alert(isManualRestart ? "Score saved. Restarting!" : "Game Over! Score saved.");
+    } else {
+        alert("Playing as Guest. Score not saved.");
+    }
 }
 
-    function picker1() {
-    if (correct1 == true) {
-        correctans = true;
-    }
-    if (correct1 == false) {
-        //double speed
-         setInterval(update, 1000/20); //50 ms
-    }
-    }
-
-    function picker2() {
-    if (correct2 == true) {
-        correctans = true;
-    }
-    if (correct2 == false) {
-        //double speed
-         setInterval(update, 1000/20); //50 ms
-    }
-    }
-
-    function picker3() {
-    if (correct3 == true) {
-        correctans = true;
-    }
-    if (correct3 == false) {
-        //double speed
-         setInterval(update, 1000/20); //50 ms
-    }
-    }
-
-    function picker4() {
-    if (correct4 == true) {
-        correctans = true;
-    }
-    if (correct4 == false) {
-        //double speed
-         setInterval(update, 1000/20); //50 ms
-    }
-    }
-
-    function resetconditions() {
-        setInterval(update, 1000/10); //100 ms
-        correctans = false;
-    }
+function handleGameOver() {
+    gameOver = true;
+    if (gameIntervalId) clearInterval(gameIntervalId);
+    clearQuestionTimer();
+    if (penaltyTimerId) clearInterval(penaltyTimerId);
+    saveScore(false); 
+}

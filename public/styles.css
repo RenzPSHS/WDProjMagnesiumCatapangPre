@@ -1,138 +1,137 @@
-            body {
-                margin: 0;
-                padding: 0;
-                background-color: #ffe992;
-                font-family: "Arial", sans-serif;
-            }
-            
-            #topbar {
-                background-color: #f5c952;
-                position: fixed;
-                font-family: "Arial", sans-serif;
-                left: 0;
-                top: 0;
-                padding: 10px 0;
-                text-align: center;
-                width: 100%;
-                z-index: 10;
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffe992;
+        font-family: "Arial", sans-serif;
+    }
 
-            }
-            #navbar {
-                display: grid;
-                grid-template-columns: repeat(4, minmax(150px, auto)); 
-                gap: 15px 40px;
-    
-                list-style-type: none;
-                padding: 0;
-                margin: 0 auto;
-                width: fit-content;
-                justify-items: start;
-}
+    #topbar {
+        background-color: #f5c952;
+        position: fixed;
+        font-family: "Arial", sans-serif;
+        left: 0;
+        top: 0;
+        padding: 10px 0;
+        text-align: center;
+        width: 100%;
+        z-index: 10;
+    }
 
-            #navbar li {
-                margin: 0;
-                padding: 0;
-                display: flex;
-                align-items: center;
-            }
+    #navbar {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(150px, auto)); 
+        gap: 15px 40px;
+        list-style-type: none;
+        padding: 0;
+        margin: 0 auto;
+        width: fit-content;
+        justify-items: start;
+    }
 
-            #webpage, .links {
-                margin: 0;
-                font-size: 1.8rem;
-                white-space: nowrap;
-                line-height: 1.2;
-            }
+    #navbar li {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
 
-            .logo {
-                height: 5rem;
-                width: auto;
-                vertical-align: middle;
-            }
-            #title {
-                margin: 0;
-                font-size: 5rem;
-                background: linear-gradient(to right, #17bd1f, #3fc245);
-                background-clip: text;
-                color: transparent;
-                display: inline; 
-                vertical-align: middle;
-            }
+    #webpage, .links {
+        margin: 0;
+        font-size: 1.8rem;
+        white-space: nowrap;
+        line-height: 1.2;
+    }
 
-            .brand {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                vertical-align: middle;
-                text-align: center; 
-            }
+    .logo {
+        height: 5rem;
+        width: auto;
+        vertical-align: middle;
+    }
 
-            .links {
-                text-decoration: none;
-                font-size: 1.5rem;
-                color: #000;
-                transition: color 0.3s ease-in;
-}
-            .links:hover {
-                text-decoration: underline;
-                color:rgb(146, 147, 212);
-            }
-            
-            #webpage {
-                text-decoration: underline;
-                font-weight: bold;
-                display: inline-block;
-                margin: 0;
-                font-size: 1.5rem;
-                cursor: default;
-            }
+    /* --- HEADER TITLE FIXED HERE --- */
+    #title {
+        margin: 0;
+        font-size: 5rem;
+        color: #2c4c2d; /* Dark Green Solid Color */
+        display: inline; 
+        vertical-align: middle;
+    }
 
-            .brand_footer {
-                display: flex;
-                align-items: center;
-                justify-content: left;
-                margin-left: 2rem;
-            }
+    .brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+        text-align: center; 
+    }
 
-            .logo_footer {
-                height: 4em;
-                width: auto;
-            }
+    .links {
+        text-decoration: none;
+        font-size: 1.5rem;
+        color: #000;
+        transition: color 0.3s ease-in;
+    }
 
-            .bTitle {
-                margin: 0;
-                font-size: 3rem;
-                background: linear-gradient(to right, #17bd1f, #3fc245);
-                background-clip: text;
-                color: transparent;
-            }
+    .links:hover {
+        text-decoration: underline;
+        color: rgb(146, 147, 212);
+    }
 
-            #copyright {
-                font-size: 1.5rem;
-                color: rgb(0, 17, 46);
-                vertical-align: bottom;
-                margin-left: 2rem;
-            }
+    #webpage {
+        text-decoration: underline;
+        font-weight: bold;
+        display: inline-block;
+        margin: 0;
+        font-size: 1.5rem;
+        cursor: default;
+    }
 
-            footer {
-                background-color: #f8bc16;
-                padding-bottom: 1rem;
-                padding-top: 1rem;
-                text-align: left;
-                width: 100%;
-            }
+    .brand_footer {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        margin-left: 2rem;
+    }
 
-            .home_imgs {
-                display: flex;
-                justify-content: center;
-                gap: 2rem;
-                margin-top: 2rem;
-                margin-bottom: 2rem;
-            }
+    .logo_footer {
+        height: 4em;
+        width: auto;
+    }
 
-            .about_us {
-                margin-left: 20rem;
-                margin-right: 20rem;
-                margin-bottom: 5rem;
-                font-size: 1.4rem;
-                color: rgb(0, 17, 46);
-            }
+    /* --- FOOTER TITLE FIXED HERE --- */
+    .bTitle {
+        margin: 0;
+        font-size: 3rem;
+        color: #2c4c2d; /* Dark Green Solid Color */
+    }
+
+    #copyright {
+        font-size: 1.5rem;
+        color: rgb(0, 17, 46);
+        vertical-align: bottom;
+        margin-left: 2rem;
+    }
+
+    footer {
+        background-color: #f8bc16;
+        padding-bottom: 1rem;
+        padding-top: 1rem;
+        text-align: left;
+        width: 100%;
+    }
+
+    .home_imgs {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .about_us {
+        margin-left: 20rem;
+        margin-right: 20rem;
+        margin-bottom: 5rem;
+        font-size: 1.4rem;
+        color: rgb(0, 17, 46);
+    }
