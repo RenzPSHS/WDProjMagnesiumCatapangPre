@@ -16,12 +16,12 @@ The Account page utilizes Conditional Rendering which shows a different layout a
 When logged out the page shows two textboxes on account name and password respectively. This page gives the user the decision to either create an account or log in to an existing account. When the user is logged in or just created an account when the page is refreshed these text and layout will not appear.
 ![New_AccountLogOutPage](Wire-frame/ACCOUNT_UPDATED[LOG-OUT].png)
 
-When a user is logged in to an account or just logged in then refreshed the account page will instead show what a layout of this image. In this version, the user has the ability to change the password of the account or delete the account. When the user clicks the delete account button an alert will popup warning the user if they actually wanted to delete the account and that the decision is permanent and irreversable.
+When a user is logged in to an account or just logged in then refreshed the account page will instead show what a layout of this image. In this version, the user has the ability to change the password of the account or delete the account. When the user clicks the delete account button an alert will pop up warning the user if they actually wanted to delete the account and that the decision is permanent and irreversable.
 ![New_AccountLogInPage](Wire-frame/ACCOUNT_UPDATED[LOG-IN].png)
 
 The leaderboard pages both the default and modified have a new button that allows the user to delete their highscore however an alert will pop up and warn the user that the decision is permanent and cannot be reversed.
 
-Leaderboard Modified page with the delete buttonm below the user stats
+Leaderboard Modified page with the delete button below the user stats
 ![New_LeaderboardModPage](Wire-frame/LEADERBOARD[MOD]_UPDATED.png)
 
 Default Leaderboard witht the delete button below the user stats
