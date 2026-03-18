@@ -30,7 +30,7 @@ Default Leaderboard witht the delete button below the user stats
 
 Extra Changes
 1. The color and layout of the website will be improved to be more consistent.
-5. Adding a design to the 
+5. Adding a design to the snake and color to the grid, to make the game more visually appealing.
 
 
 #### Website Description: Snakademic is an education web game inspired by the classic snake game. Instead of eating apples, the snake collects books that represent knowledge. Each book collected adds to your learning score. The game aims to make learning fun and interactive while improving focus and reflexes.
