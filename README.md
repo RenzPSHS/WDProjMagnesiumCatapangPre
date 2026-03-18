@@ -7,7 +7,7 @@
 ![Logo](assets/Snake_Logo.png)
 
 
-### Project Update Plan:
+### FINAL MODIFICATION PROPOSAL
 
 When a user logs in or creates an account data such as the game settings they last had and highest score are saved in that account. The data is then used either to change the game according to the settings or show the highest score for that mode in the leaderboards. A new addition as part of the update plan are the decisions to delete the account or the high score of that account, as well as the ability to change the password of the account.
 
@@ -31,6 +31,8 @@ Default Leaderboard witht the delete button below the user stats
 Extra Changes
 1. The color and layout of the website will be improved to be more consistent.
 5. Adding a design to the snake and color to the grid, to make the game more visually appealing.
+
+
 
 
 #### Website Description: Snakademic is an education web game inspired by the classic snake game. Instead of eating apples, the snake collects books that represent knowledge. Each book collected adds to your learning score. The game aims to make learning fun and interactive while improving focus and reflexes.
