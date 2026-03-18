@@ -3,6 +3,17 @@
 
 ## Second title: “ Feed your mind, one book at a time”
 
+
+### Project Update Plan:
+1. Fix the formatting and update the colors of the webpages to match each other in the website.
+2. Add option to delete data of the user in the leaderboard and leaderboard modified pages.
+3. Update the sizes and alignment of the images and text in the home page and for the images to direct to the game page if clicked.
+4. Add more color and design to the text of each webpage in the website.
+5. Add image and design to the snake and book in the game page.
+
+
+
+
 ## Logo:
 ![Logo](assets/Snake_Logo.png)
 
@@ -16,7 +27,7 @@
 2. How to Play - Provides a guide on how to play the game
 3. The Game - The page where the game is played.
 4. Leaderboard - Shows the scores of the top 20 players. Updates every time it is refreshed.
-5. About Us - Provides info and reason for making of the creators of the website.
+5. About Us - Provides tasks and roles of the creators for the making of the website.
 
 
 
@@ -43,7 +54,7 @@
 
 2. Since the user needs these settings to remain active while they navigate between pages, we will use LocalStorage. When the user adjusts the sliders on the settings page and clicks "Default Game Settings", the specific values (Low, Medium, Infinite) are saved to the user's browser. When the user logs in, their username is also saved to LocalStorage so that the website remembers who they are.
 
-3. The wireframe demonstrate how this saved data is used in the Settings page and Leaderboard[Modified] page. The settings page acts as the control center. The form here is used to input and save the selected difficulty levels. For example, if a student wants a faster paced game, they ccan set the Snake Speed to high and save it. The Leaderboard[Modified], on the otherhand, uses the saved data to personalize the view. For example, the Personal Stats box retrieves the saved username to display a personalized gretting alongside their personal high score in the account. Another example is for filtering results of the leaderboard, the sliders appear here again, but for a different purpose. Instead of setting the game rules, they act as filters. By adjusting the Snake Speed slider and clicking Change Leaderboard, the user can tell the list to only display the scores from other players who played that specific combination of game rules and mechanics with that specific difficulty. This ensures the ranking is fair.
+3. The wireframe demonstrate how this saved data is used in the Settings page and Leaderboard[Modified] page. The settings page acts as the control center. The form here is used to input and save the selected difficulty levels. For example, if a student wants a faster paced game, they ccan set the Snake Speed to high and save it. The Leaderboard[Modified], on the otherhand, uses the saved data to personalize the view. For example, the Personal Stats box retrieves the saved username to display a personalized greeting alongside their personal high score in the account. Another example is for filtering results of the leaderboard, the sliders appear here again, but for a different purpose. Instead of setting the game rules, they act as filters. By adjusting the Snake Speed slider and clicking Change Leaderboard, the user can tell the list to only display the scores from other players who played that specific combination of game rules and mechanics with that specific difficulty. This ensures the ranking is fair.
 
 4. 
 ### Sign-in Page
