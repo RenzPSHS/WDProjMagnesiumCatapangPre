@@ -3,11 +3,74 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Snakademic</title>
+        <title>Snakademic Settings</title>
         <link rel="icon" href="../assets/Snake_Logo.png" type="image/png">
         <link rel="stylesheet" href="styles.css" />
         <style>
+            body {
+                background-color: #fcfcb3;
+                font-family: sans-serif;
+                margin: 0;
+            }
 
+            .settings-wrapper {
+                margin-top: 250px; 
+                margin-bottom: 100px;
+                display: flex;
+                justify-content: center;
+                padding: 0 20px;
+            }
+
+            .settings-box {
+                border: 3px solid black;
+                background-color: white;
+                padding: 40px;
+                width: 100%;
+                max-width: 600px; 
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .setting-group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .setting-group label {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+
+            .slider-container {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            input[type="range"] {
+                flex-grow: 1;
+                cursor: pointer;
+            }
+
+            .slider-label {
+                min-width: 85px; 
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+
+            .btn-box {
+                padding: 15px 30px;
+                background-color: white;
+                border: 2px solid black;
+                font-weight: bold;
+                font-size: 1.1rem;
+                cursor: pointer;
+                text-align: center;
+                align-self: center; 
+                margin-top: 10px;
+            }
         </style>
     </head>
     <body>
@@ -22,31 +85,46 @@
                     <li><a class="links" href="guide.html">How To Play</a></li>
                     <li><a class="links" href="game.html">The Game</a></li>
                     <li><a class="links" href="account.html">Account</a></li>
+                    
                     <li><p id="webpage">Settings</p></li>
                     <li><a class="links" href="leaderboard.html">Leaderboard</a></li>
-                    <li><a class="links" href="leaderboard[MOD]">Leaderboard[Modified]<a></li>
+                    <li><a class="links" href="leaderboard[MOD].html">Leaderboard[Modified]</a></li>
                     <li><a class="links" href="about.html">About Us</a></li>
                 </ul>
             </nav>
         </header>
-        <section>
-            <div>
-                <h1></h1>
-                <p>
-                    <ul>
-                        <li>
 
-                        </li>
-                    </ul>
-                </p>
-            </div>
-            <div>
-                <h1></h1>
-                <p>
+        <section class="settings-wrapper">
+            <div class="settings-box">
+                
+                <div class="setting-group">
+                    <label>Book Spawning Rate:</label>
+                    <div class="slider-container">
+                        <input type="range" id="spawnRate" min="25" max="100" step="25" value="25">
+                        <span id="spawnText" class="slider-label">[Low]</span>
+                    </div>
+                </div>
 
-                </p>
+                <div class="setting-group">
+                    <label>Snake Speed:</label>
+                    <div class="slider-container">
+                        <input type="range" id="snakeSpeed" min="0" max="100" step="25" value="50">
+                        <span id="speedText" class="slider-label">[Medium]</span>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label>Time for Question:</label>
+                    <div class="slider-container">
+                        <input type="range" id="timeLimit" min="0" max="100" step="25" value="100">
+                        <span id="timeText" class="slider-label">[Infinite]</span>
+                    </div>
+                </div>
+
+                <button id="btn-default" class="btn-box">Default Game Settings</button>
             </div>
         </section>
+
         <footer>
             <div class="brand_footer">
                 <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
@@ -55,9 +133,64 @@
             </div>
             <div class="sources">
                 <h2>Sources:</h2>
-                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube. https://www.youtube.com/watch?v=baBq5GAL0_U</p>
+                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube.</p>
             </div>
             <p></p>
         </footer>
+
+        <script>
+            const spawnLabels = ["[Low]", "[Medium]", "[High]", "[Extreme]"];
+            const speedLabels = ["[Slowest]", "[Slow]", "[Medium]", "[Fast]", "[Fastest]"];
+            const timeLabels  = ["[10 sec]", "[30 sec]", "[60 sec]", "[90 sec]", "[Infinite]"];
+
+            function setupSettingsSlider(sliderId, textId, labelsArray, storageKey, defaultValue) {
+                const slider = document.getElementById(sliderId);
+                const textSpan = document.getElementById(textId);
+
+                let savedValue = localStorage.getItem(storageKey);
+                if (savedValue !== null) {
+                    slider.value = Math.max(savedValue, slider.min); 
+                } else {
+                    slider.value = defaultValue;
+                }
+
+                function getIndex() {
+                    let index = (parseInt(slider.value) - parseInt(slider.min)) / 25;
+                    // Safety net so it never prints "undefined"
+                    if (index >= labelsArray.length) index = labelsArray.length - 1;
+                    if (index < 0) index = 0;
+                    return index;
+                }
+
+                textSpan.innerText = labelsArray[getIndex()];
+
+                slider.addEventListener('input', function() {
+                    textSpan.innerText = labelsArray[getIndex()];
+                    localStorage.setItem(storageKey, slider.value);
+                });
+            }
+
+            window.onload = function() {
+                setupSettingsSlider('spawnRate', 'spawnText', spawnLabels, 'setting_spawnRate', 25);
+                setupSettingsSlider('snakeSpeed', 'speedText', speedLabels, 'setting_snakeSpeed', 50);
+                setupSettingsSlider('timeLimit', 'timeText', timeLabels, 'setting_timeLimit', 25);
+
+                document.getElementById('btn-default').addEventListener('click', function() {
+                    localStorage.setItem('setting_spawnRate', 25);
+                    localStorage.setItem('setting_snakeSpeed', 50);
+                    localStorage.setItem('setting_timeLimit', 25);
+
+                    document.getElementById('spawnRate').value = 25;
+                    document.getElementById('snakeSpeed').value = 50;
+                    document.getElementById('timeLimit').value = 25;
+
+                    document.getElementById('spawnRate').dispatchEvent(new Event('input'));
+                    document.getElementById('snakeSpeed').dispatchEvent(new Event('input'));
+                    document.getElementById('timeLimit').dispatchEvent(new Event('input'));
+
+                    alert("Settings have been reset to default!");
+                });
+            };
+        </script>
     </body>
 </html>
