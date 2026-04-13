@@ -3,19 +3,36 @@
 
 ## Second title: “ Feed your mind, one book at a time”
 
-
-### Project Update Plan:
-1. Fix the formatting and update the colors of the webpages to match each other in the website.
-2. Add option to delete data of the user in the leaderboard and leaderboard modified pages.
-3. Update the sizes and alignment of the images and text in the home page and for the images to direct to the game page if clicked.
-4. Add more color and design to the text of each webpage in the website.
-5. Add image and design to the snake and book in the game page.
-
-
-
-
 ## Logo:
 ![Logo](assets/Snake_Logo.png)
+
+
+### FINAL MODIFICATION PROPOSAL
+
+When a user logs in or creates an account data such as the game settings they last had and highest score are saved in that account. The data is then used either to change the game according to the settings or show the highest score for that mode in the leaderboards. A new addition as part of the update plan are the decisions to delete the account or the high score of that account, as well as the ability to change the password of the account.
+
+The Account page utilizes Conditional Rendering which shows a different layout and page when logged in or logged out.
+
+When logged out the page shows two textboxes on account name and password respectively. This page gives the user the decision to either create an account or log in to an existing account. When the user is logged in or just created an account when the page is refreshed these text and layout will not appear.
+![New_AccountLogOutPage](Wire-frame/ACCOUNT_UPDATED[LOG-OUT].png)
+
+When a user is logged in to an account or just logged in then refreshed the account page will instead show what a layout of this image. In this version, the user has the ability to change the password of the account or delete the account. When the user clicks the delete account button an alert will pop up warning the user if they actually wanted to delete the account and that the decision is permanent and irreversable.
+![New_AccountLogInPage](Wire-frame/ACCOUNT_UPDATED[LOG-IN].png)
+
+The leaderboard pages both the default and modified have a new button that allows the user to delete their highscore however an alert will pop up and warn the user that the decision is permanent and cannot be reversed.
+
+Leaderboard Modified page with the delete button below the user stats
+![New_LeaderboardModPage](Wire-frame/LEADERBOARD[MOD]_UPDATED.png)
+
+Default Leaderboard witht the delete button below the user stats
+![New_LeaderboardPage](Wire-frame/LEADERBOARD_UPDATED.png)
+
+
+Extra Changes
+1. The color and layout of the website will be improved to be more consistent.
+5. Adding a design to the snake and color to the grid, to make the game more visually appealing.
+
+
 
 
 #### Website Description: Snakademic is an education web game inspired by the classic snake game. Instead of eating apples, the snake collects books that represent knowledge. Each book collected adds to your learning score. The game aims to make learning fun and interactive while improving focus and reflexes.
@@ -28,7 +45,6 @@
 3. The Game - The page where the game is played.
 4. Leaderboard - Shows the scores of the top 20 players. Updates every time it is refreshed.
 5. About Us - Provides tasks and roles of the creators for the making of the website.
-
 
 
 ## Wireframes:
