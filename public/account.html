@@ -21,67 +21,94 @@
             }
 
             .login-box {
-                background-color: white;
-                border: 3px solid black;
+                background-color: #f4f9f4;
+                border: 3px solid #2c4c2d;
                 padding: 40px;
                 width: 100%;
                 max-width: 500px;
                 display: flex;
                 flex-direction: column;
-                gap: 25px;
+                gap: 20px;
+            }
+
+            .login-box h1 {
+                text-align: center; 
+                margin-top: 0;
+                margin-bottom: 5px;
+            }
+
+            .user-info {
+                font-size: 1.2rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .user-info p {
+                margin: 5px 0;
             }
 
             .input-group label {
                 display: block;
                 font-weight: bold;
-                font-size: 1.5rem;
+                font-size: 1.2rem;
                 margin-bottom: 10px;
-                color: black;
             }
 
             .input-group input {
                 width: 100%;
-                padding: 10px;
-                font-size: 1.2rem;
-                border: 2px solid black;
+                padding: 12px;
+                font-size: 1rem;
+                border: 2px solid #2c4c2d;
                 box-sizing: border-box;
-                outline: none;
             }
 
-            .btn-row {
-                display: flex;
-                justify-content: space-between;
-                gap: 20px;
-            }
-
-            .btn-center {
-                display: flex;
-                justify-content: center;
-            }
-
-            .btn-action {
-                background-color: white;
-                border: 2px solid black;
-                padding: 10px 0;
+            .btn-update-lb {
+                padding: 12px;
+                font-size: 1.1rem;
                 font-weight: bold;
-                font-size: 1.2rem;
+                background-color: #f5c952; 
+                color: #2c4c2d;
+                border: 2px solid #2c4c2d;
                 cursor: pointer;
-                text-transform: uppercase;
+                transition: 0.2s;
                 width: 100%;
-                transition: background 0.2s;
             }
 
-            .btn-action:hover {
-                background-color: #eee;
+            .btn-update-lb:hover {
+                background-color: #e5b83b;
+            }
+
+            .btn-danger {
+                background-color: #d9534f;
+                color: #fcfcfc;
+                border: 2px solid #2c4c2d;
+                cursor: pointer;
+                padding: 12px;
+                font-size: 1.1rem;
+                font-weight: bold;
+                transition: 0.2s;
+                width: 100%;
+            }
+
+            .btn-danger:hover {
+                background-color: #c9302c;
+            }
+            
+            .button-row {
+                display: flex; 
+                gap: 15px;
+                margin-top: 5px;
+            }
+            .button-row button {
+                flex: 1;
             }
         </style>
     </head>
     <body>
-        
         <header id="topbar">
             <div class="brand">
                 <img class="logo" src="../assets/Snake_Logo.png" alt="logo">
-                <h1 id="title">Snakademic</h1>
+                <h1 class="top" id="title">Snakademic</h1>
             </div>
             <nav>
                 <ul id="navbar">
@@ -89,7 +116,7 @@
                     <li><a class="links" href="guide.html">How To Play</a></li>
                     <li><a class="links" href="game.html">The Game</a></li>
                     <li><p id="webpage">Account</p></li>
-            
+                    
                     <li><a class="links" href="settings.html">Settings</a></li>
                     <li><a class="links" href="leaderboard.html">Leaderboard</a></li>
                     <li><a class="links" href="leaderboard[MOD].html">Leaderboard[Modified]</a></li>
@@ -97,121 +124,155 @@
                 </ul>
             </nav>
         </header>
-
+        <div class="content-wrapper">
         <section class="main-body-section">
-            <div class="login-box">
+            <div id="auth-section" class="login-box">
+                <h1>Login or Register</h1>
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username...">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password...">
+                </div>
+                <div class="button-row">
+                    <button id="btn-login" class="btn-update-lb">Login</button>
+                    <button id="btn-register" class="btn-update-lb">Register</button>
+                </div>
+            </div>
+
+            <div id="manage-section" class="login-box" style="display: none;">
+                <h1>Account</h1>
+                
+                <div class="user-info">
+                    <p id="display-username">Username: </p>
+                    <p id="display-password">Password: </p>
+                </div>
                 
                 <div class="input-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username">
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" placeholder="Enter new password...">
                 </div>
 
                 <div class="input-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" placeholder="Confirm new password...">
                 </div>
-
-                <div class="btn-row">
-                    <button id="btn-login" class="btn-action">LOGIN</button>
-                    <button id="btn-register" class="btn-action">REGISTER</button>
-                </div>
-                <button id="btn-logout" class="btn-action" style="margin-top: 15px;">LOG-OUT</button>
-
+                
+                <button onclick="updatePassword()" class="btn-update-lb" style="margin-top: 10px;">Save Changes</button>
+                <button id="btn-logout" class="btn-update-lb">Log Out</button>
+                <button onclick="deleteAccount()" class="btn-danger">Delete Account</button>
             </div>
         </section>
-
-        <script>
-            // 1. When page loads, check if someone is currently logged in
-            window.onload = function() {
-                let savedUser = localStorage.getItem("currentUser");
-                if (savedUser) {
-                    document.getElementById("username").value = savedUser;
-                }
-            };
-
-            // Helper Function: Retrieves the "database" of all saved accounts
-            function getSavedAccounts() {
-                // If there are accounts, grab them. If not, create an empty object {}
-                return JSON.parse(localStorage.getItem("snakademicUsers")) || {};
-            }
-
-            // 2. REGISTER BUTTON: Creates a new account and saves the password
-            document.getElementById("btn-register").addEventListener("click", function() {
-                let usernameInput = document.getElementById("username").value.trim();
-                let passwordInput = document.getElementById("password").value.trim();
-
-                if (usernameInput === "" || passwordInput === "") {
-                    alert("Please enter both a Username and Password to register.");
-                    return;
-                }
-
-                let accounts = getSavedAccounts();
-
-                // Check if the username is already taken
-                if (accounts[usernameInput]) {
-                    alert("That username is already taken! Please pick a different one or login.");
-                } else {
-                    // Save the password to that username
-                    accounts[usernameInput] = passwordInput; 
-            
-                    // Save the updated list of accounts back to memory
-                    localStorage.setItem("snakademicUsers", JSON.stringify(accounts));
-            
-                    // Automatically log them in
-                    localStorage.setItem("currentUser", usernameInput);
-                    alert("Account created successfully! Welcome, " + usernameInput + "!");
-                }
-            });
-
-            // 3. LOGIN BUTTON: Verifies the account and password
-            document.getElementById("btn-login").addEventListener("click", function() {
-                let usernameInput = document.getElementById("username").value.trim();
-                let passwordInput = document.getElementById("password").value.trim();
-
-                if (usernameInput === "" || passwordInput === "") {
-                    alert("Please enter your Username and Password.");
-                    return;
-                }
-
-                let accounts = getSavedAccounts();
-
-                // Check if account exists
-                if (!accounts[usernameInput]) {
-                    alert("Account not found. Please click 'Register' to create one first.");
-                } 
-                // Check if password matches what was saved
-                else if (accounts[usernameInput] !== passwordInput) {
-                    alert("Incorrect password! Please try again.");
-                } 
-                // Success!
-                else {
-                    localStorage.setItem("currentUser", usernameInput);
-                    alert("Login successful. Welcome back, " + usernameInput + "!");
-                }
-            });
-
-            // 4. LOGOUT BUTTON: Clears the current user
-            document.getElementById("btn-logout").addEventListener("click", function() {
-                localStorage.removeItem("currentUser");
-        
-                document.getElementById("username").value = "";
-                document.getElementById("password").value = "";
-        
-                alert("You have been logged out.");
-            });
-        </script>
-
+        </div>
         <footer>
             <div class="brand_footer">
                 <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
-                <h1 class="bTitle" style="color: black; margin: 10px 0;">Snakademic</h1>
+                <h1 class="bTitle" style="color: #2c4c2d; margin: 10px 0;">Snakademic</h1>
                 <p id="copyright">© 2025</p>
             </div>
             <div class="sources">
                 <h2>Sources:</h2>
-                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube. https://www.youtube.com/watch?v=baBq5GAL0_U</p>
+                <p>Kenny Yip Coding. (2022, March 28). How to code snake game in JavaScript [Video]. YouTube.</p>
             </div>
         </footer>
 
+        <script>
+            const authSection = document.getElementById("auth-section");
+            const manageSection = document.getElementById("manage-section");
+
+            // --- 1. CHECK STATE ON LOAD ---
+            window.onload = function() {
+                const currentUser = localStorage.getItem("currentUser");
+                if (currentUser) {
+                    authSection.style.display = "none";
+                    manageSection.style.display = "flex";
+                    
+                    // Fetch current password to display it like the wireframe
+                    let accounts = JSON.parse(localStorage.getItem("snakademicUsers")) || {};
+                    let currentPassword = accounts[currentUser] || "";
+
+                    document.getElementById("display-username").innerText = "Username: " + currentUser;
+                    document.getElementById("display-password").innerText = "Password: " + currentPassword;
+                }
+            };
+
+            // --- 2. REGISTER ACCOUNT ---
+            document.getElementById("btn-register").addEventListener("click", function() {
+                let u = document.getElementById("username").value.trim();
+                let p = document.getElementById("password").value.trim();
+                if (!u || !p) return alert("Please fill all fields.");
+
+                let accounts = JSON.parse(localStorage.getItem("snakademicUsers")) || {};
+                if (accounts[u]) return alert("Username already exists!");
+
+                accounts[u] = p;
+                localStorage.setItem("snakademicUsers", JSON.stringify(accounts));
+                localStorage.setItem("currentUser", u);
+                
+                alert("Account created! You are now logged in.");
+                location.reload(); 
+            });
+
+            // --- 3. LOGIN ACCOUNT ---
+            document.getElementById("btn-login").addEventListener("click", function() {
+                let u = document.getElementById("username").value.trim();
+                let p = document.getElementById("password").value.trim();
+                let accounts = JSON.parse(localStorage.getItem("snakademicUsers")) || {};
+
+                if (accounts[u] === p) {
+                    localStorage.setItem("currentUser", u);
+                    location.reload(); 
+                } else {
+                    alert("Invalid credentials.");
+                }
+            });
+
+            // --- 4. UPDATE PASSWORD ---
+            function updatePassword() {
+                let newPass = document.getElementById("new-password").value;
+                let confirmPass = document.getElementById("confirm-password").value;
+                let user = localStorage.getItem("currentUser");
+                let accounts = JSON.parse(localStorage.getItem("snakademicUsers"));
+
+                if (newPass.length < 1) return alert("Please enter a new password.");
+                if (newPass !== confirmPass) return alert("Passwords do not match! Please try again.");
+                
+                accounts[user] = newPass;
+                localStorage.setItem("snakademicUsers", JSON.stringify(accounts));
+                
+                // Clear input fields and update the displayed password
+                document.getElementById("new-password").value = "";
+                document.getElementById("confirm-password").value = "";
+                document.getElementById("display-password").innerText = "Password: " + newPass;
+                
+                alert("Password updated successfully!");
+            }
+
+            // --- 5. DELETE ACCOUNT ---
+            function deleteAccount() {
+                if (confirm("WARNING: This will permanently delete your account and scores. Proceed?")) {
+                    let user = localStorage.getItem("currentUser");
+                    let accounts = JSON.parse(localStorage.getItem("snakademicUsers"));
+                    
+                    delete accounts[user];
+                    localStorage.setItem("snakademicUsers", JSON.stringify(accounts));
+
+                    let scores = JSON.parse(localStorage.getItem("snakademicScores")) || [];
+                    let filtered = scores.filter(s => s.username !== user);
+                    localStorage.setItem("snakademicScores", JSON.stringify(filtered));
+
+                    localStorage.removeItem("currentUser");
+                    location.reload();
+                }
+            }
+
+            // --- 6. LOGOUT ---
+            document.getElementById("btn-logout").addEventListener("click", () => {
+                localStorage.removeItem("currentUser");
+                location.reload();
+            });
+        </script>
     </body>
 </html>

@@ -7,22 +7,14 @@
         <link rel="icon" href="../assets/Snake_Logo.png" type="image/png">
         <link rel="stylesheet" href="styles.css" />
         <style>
-            body {
-                background-color: #fcfcb3;
-                font-family: sans-serif;
-                margin: 0;
-            }
-
             .main-body-section {
                 display: flex;
                 justify-content: space-between;
                 max-width: 1200px;
-                
                 margin-top: 250px;
                 margin-bottom: 50px;
                 margin-left: auto; 
                 margin-right: auto;
-                
                 padding: 0 20px;
                 gap: 30px;
             }
@@ -53,8 +45,9 @@
 
             .btn-box {
                 padding: 15px;
-                background-color: white;
-                border: 2px solid black;
+                background-color: #f5c952; 
+                border: 2px solid #2c4c2d; 
+                color: #2c4c2d;
                 font-weight: bold;
                 font-size: 1rem;
                 cursor: pointer;
@@ -64,13 +57,13 @@
             }
 
             .btn-box:hover {
-                background-color: #eee;
+                background-color: #e5b83b;
             }
 
             .col-leaderboard {
                 flex: 1.5;
-                border: 3px solid black; 
-                background-color: white;
+                border: 3px solid #2c4c2d; 
+                background-color: #f4f9f4; 
                 display: flex;
                 flex-direction: column;
                 max-height: 400px;
@@ -79,7 +72,7 @@
 
             .rank-item {
                 padding: 12px 15px;
-                border-bottom: 2px solid black;
+                border-bottom: 2px solid #2c4c2d; 
                 font-weight: 500;
                 font-size: 1.1rem;
             }
@@ -96,8 +89,8 @@
             }
 
             .stats-display-box {
-                border: 3px solid black;
-                background-color: white;
+                border: 3px solid #2c4c2d; 
+                background-color: #f4f9f4; 
                 padding: 20px;
                 text-align: center;
                 min-height: 150px;
@@ -109,6 +102,20 @@
             .slider-label {
                 min-width: 75px; 
                 font-weight: bold;
+            }
+
+            .btn-danger {
+                background-color: #d9534f;
+                color: #fcfcfc;
+                border: 2px solid #2c4c2d;
+                cursor: pointer;
+                padding: 8px;
+                font-weight: bold;
+                transition: 0.2s;
+            }
+            
+            .btn-danger:hover {
+                background-color: #c9302c;
             }
 
             @media (max-width: 768px) {
@@ -140,7 +147,7 @@
                 </ul>
             </nav>
         </header>
-
+        <div class="content-wrapper"></div>
         <section class="main-body-section">
             
             <div class="col-settings">
@@ -171,17 +178,26 @@
             <div class="col-leaderboard" id="leaderboard-container"></div>
 
             <div class="col-stats">
-                <div class="stats-display-box">
+                <div class="stats-display-box" id="personal-stats-box">
                     <h2>Your Stats</h2>
-                    <p>Hello <em id="display-username">[Username]!</em></p>
-    
-                    <p>Your current highest score is: <strong id="display-hps">[hps]</strong></p>
+                    
+                    <div id="logged-out-view">
+                        <p>Please login to see your stats.</p>
+                    </div>
+
+                    <div id="logged-in-view" style="display: none;">
+                        <p>Hello <em id="display-username">[Username]</em>!</p>
+                        <p>Your current highest score is: <strong id="display-hps">[hps]</strong></p>
+                        <hr style="border: 1px solid #2c4c2d; margin: 15px 0;"> 
+                        <button onclick="resetMyScores()" class="btn-danger" style="width: 100%; font-size: 0.9rem;">Delete Mode Score</button>
+                    </div>
+
                 </div>
                 <button id="btn-update-lb" class="btn-box">Update Leaderboard</button>
             </div>
 
         </section>
-
+        </div>
         <footer>
             <div class="brand_footer">
                 <img class="logo_footer" src="../assets/Snake_Logo.png" alt="logo">
@@ -195,10 +211,6 @@
         </footer>
 
     <script>
-    // ==========================================
-    // 1. DYNAMIC TICK SLIDER LOGIC
-    // ==========================================
-    
         const spawnLabels = ["[Low]", "[Medium]", "[High]", "[Extreme]"];
         const speedLabels = ["[Slowest]", "[Slow]", "[Medium]", "[Fast]", "[Fastest]"];
         const timeLabels  = ["[10 sec]", "[30 sec]", "[60 sec]", "[90 sec]", "[Infinite]"];
@@ -220,28 +232,57 @@
 
             textSpan.innerText = labelsArray[getIndex()];
         }
-
-
-        // ==========================================
-        // 2. ACCOUNT & STATS LOGIC
-        // ==========================================
         
         function loadPersonalStats() {
-            let currentUsername = localStorage.getItem("currentUser") || "Guest";
-            let highestScore = localStorage.getItem("highestScore") || 0;
-
-            let nameEl = document.getElementById("display-username");
-            let hpsEl = document.getElementById("display-hps");
+            let currentUser = localStorage.getItem("currentUser");
+            let loggedOutView = document.getElementById('logged-out-view');
+            let loggedInView = document.getElementById('logged-in-view');
             
-            if (nameEl) nameEl.innerText = currentUsername + "!";
-            if (hpsEl) hpsEl.innerText = highestScore;
+            if (!currentUser) {
+                loggedOutView.style.display = 'block';
+                loggedInView.style.display = 'none';
+                return;
+            }
+
+            loggedOutView.style.display = 'none';
+            loggedInView.style.display = 'block';
+
+            // FIX: Calculate mode-specific highest score
+            let currentModeScores = fetchScores(); 
+            let myScoresInMode = currentModeScores.filter(s => s.username === currentUser);
+            
+            let hps = 0;
+            if (myScoresInMode.length > 0) {
+                hps = Math.max(...myScoresInMode.map(s => s.score));
+            }
+            
+            document.getElementById('display-username').innerText = currentUser;
+            document.getElementById('display-hps').innerText = hps;
         }
 
+        function resetMyScores() {
+            if (confirm("This will delete your highest score for the currently selected difficulty. Continue?")) {
+                let user = localStorage.getItem("currentUser");
+                let scores = JSON.parse(localStorage.getItem("snakademicScores")) || [];
+                
+                let currentSpawn = parseInt(document.getElementById("spawnRate").value);
+                let currentSpeed = parseInt(document.getElementById("snakeSpeed").value);
+                let currentTime = parseInt(document.getElementById("timeLimit").value);
 
-        // ==========================================
-        // 3. STRICT SCORE FILTERING
-        // ==========================================
-        
+                // Keep all scores EXCEPT those matching this user AND this exact mode
+                let remainingScores = scores.filter(s => 
+                    !(s.username === user && s.spawnRate === currentSpawn && s.snakeSpeed === currentSpeed && s.timeLimit === currentTime)
+                );
+                
+                localStorage.setItem("snakademicScores", JSON.stringify(remainingScores));
+                
+                alert("Score successfully deleted!");
+                
+                loadLeaderboard(fetchScores());
+                loadPersonalStats();
+            }
+        }
+
         function fetchScores() {
             let currentSpawn = parseInt(document.getElementById("spawnRate").value);
             let currentSpeed = parseInt(document.getElementById("snakeSpeed").value);
@@ -249,7 +290,6 @@
 
             let allSavedScores = JSON.parse(localStorage.getItem("snakademicScores")) || [];
 
-            // FILTER! Only keep real scores with perfectly matching settings
             let filteredScores = allSavedScores.filter(function(playerData) {
                 return playerData.spawnRate === currentSpawn &&
                        playerData.snakeSpeed === currentSpeed &&
@@ -259,11 +299,6 @@
             return filteredScores;
         }
 
-
-        // ==========================================
-        // 4. LEADERBOARD RENDERING
-        // ==========================================
-        
         function getOrdinalSuffix(i) {
             let j = i % 10, k = i % 100;
             if (j == 1 && k != 11) { return i + "st"; }
@@ -278,9 +313,8 @@
             
             container.innerHTML = ""; 
 
-            // Empty State Handling
             if (dataArray.length === 0) {
-                container.innerHTML = "<div style='padding: 30px; text-align: center; font-size: 1.2rem; font-weight: bold; color: #555;'>No scores have been saved with these exact settings yet!</div>";
+                container.innerHTML = "<div style='padding: 30px; text-align: center; font-size: 1.2rem; font-weight: bold; color: #2c4c2d;'>No scores have been saved with these exact settings yet!</div>";
                 return;
             }
 
@@ -303,11 +337,6 @@
                 container.appendChild(rankDiv);
             }
         }
-
-
-        // ==========================================
-        // 5. INITIALIZATION & BUTTON CLICKS
-        // ==========================================
         
         window.onload = function() {
             setupDynamicSlider('spawnRate', 'spawnText', spawnLabels);
@@ -322,6 +351,7 @@
                 btnChange.addEventListener('click', function() {
                     let newScores = fetchScores();
                     loadLeaderboard(newScores);
+                    loadPersonalStats(); // Added this so stats update when you change sliders
                     
                     let originalText = this.innerText;
                     this.innerText = "Mode Changed!";

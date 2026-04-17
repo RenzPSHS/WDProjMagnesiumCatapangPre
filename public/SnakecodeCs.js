@@ -333,11 +333,7 @@ function saveScore(isManualRestart) {
             });
         }
         
-        localStorage.setItem("snakademicScores", JSON.stringify(savedScores));
-        
-        // Update Personal Best
-        let hps = parseInt(localStorage.getItem("highestScore")) || 0;
-        if (score > hps) localStorage.setItem("highestScore", score);
+       localStorage.setItem("snakademicScores", JSON.stringify(savedScores));
 
         alert(isManualRestart ? "Score saved. Restarting!" : "Game Over! Score saved.");
     } else {
